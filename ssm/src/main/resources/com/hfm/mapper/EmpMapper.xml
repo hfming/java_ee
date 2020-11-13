@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfm.mapper.EmpMapper">
+
+    <resultMap id="selectAllMap" type="com.hfm.domain.Emp">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName"/>
+        <result column="gender" property="gender"/>
+        <result column="email" property="email"/>
+        <association property="dept" column="dept_id" javaType="com.hfm.domain.Dept">
+            <id column="dept_id" property="deptId"/>
+            <result column="dept_name" property="deptName"/>
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="selectAllMap">
+		SELECT
+			e.*,
+			d.dept_name
+		FROM
+			tbl_emp AS e
+		LEFT OUTER JOIN
+			tbl_dept AS d
+		ON
+			e.dept_id = d.dept_id
+		order by  emp_id
+    </select>
+
+    <insert id="saveEmp" parameterType="com.hfm.domain.Emp" useGeneratedKeys="true" keyProperty="empId">
+        insert into tbl_emp set emp_id = #{empId},emp_name = #{empName}, gender = #{gender},email = #{email},dept_id = #{dept.deptId}
+    </insert>
+
+    <update id="updateEmp" parameterType="com.hfm.domain.Emp">
+        update tbl_emp set emp_id = #{empId},emp_name = #{empName}, gender = #{gender},email = #{email},dept_id = #{dept.deptId} where emp_id = #{empId}
+    </update>
+</mapper>

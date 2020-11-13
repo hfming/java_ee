@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--&lt;!&ndash;    添加p名称空间在配置文件中 &ndash;&gt;-->
+<!--    <beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--           xmlns:p="http://www.springframework.org/schema/p"-->
+<!--           xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">-->
+
+<!-- 配置 User 对象创建-->
+<!--    id 属性 给对象起唯一标识-->
+<!--    class 属性 对象的类全路径(包类路径)-->
+<!--    name 属性与 id 属性作用相同,目前已经抛弃-->
+<!--    <bean id="user" class="com.hfm.entity.User"></bean>-->
+
+<!--    <bean id="user" class="com.hfm.entity.User">-->
+<!--        <property name="username" value="hfm"></property>-->
+<!--        <property name="password" value="17111711"></property>-->
+<!--        <property name="uuid">-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;   set方法注入属性&ndash;&gt;-->
+<!--&lt;!&ndash;   配置对象的创建&ndash;&gt;-->
+<!--    <bean id="book" class="com.hfm.entity.Book">-->
+<!--&lt;!&ndash;        使用 property 标签完成属性注入 &ndash;&gt;-->
+<!--&lt;!&ndash;            name 属性：类里面属性名称&ndash;&gt;-->
+<!--&lt;!&ndash;            value 属性：向属性注入的值&ndash;&gt;-->
+<!--        <property name="bname" value="易筋经"></property>-->
+<!--        <property name="id" value="1"></property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    有参构造函数方式注入属性&ndash;&gt;-->
+<!--&lt;!&ndash;       配置对象的创建&ndash;&gt;-->
+<!--    <bean id="book" class="com.hfm.entity.Book">-->
+<!--&lt;!&ndash;        constructor-arg 标签&ndash;&gt;-->
+<!--&lt;!&ndash;        name 属性名&ndash;&gt;-->
+<!--&lt;!&ndash;        value 属性值&ndash;&gt;-->
+<!--        <constructor-arg name="id" value="1"></constructor-arg>-->
+<!--        <constructor-arg name="bname" value="China"></constructor-arg>-->
+<!--&lt;!&ndash;        index + N 表示第 N 个属性&ndash;&gt;-->
+<!--&lt;!&ndash;        <constructor-arg index="0" value="1"></constructor-arg>&ndash;&gt;-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;   使用 P 名称空间注入属性&ndash;&gt;-->
+<!--&lt;!&ndash;   配置对象的创建&ndash;&gt;-->
+<!--    <bean id="book" class="com.hfm.entity.Book" p:id="1" p:bname="九阳神功">-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;   set方法注入属性&ndash;&gt;-->
+<!--&lt;!&ndash;   字面量类型注入&ndash;&gt;-->
+<!--&lt;!&ndash;   配置对象的创建&ndash;&gt;-->
+<!--    <bean id="book" class="com.hfm.entity.Book">-->
+<!--&lt;!&ndash;        使用 property 标签完成属性注入 &ndash;&gt;-->
+<!--&lt;!&ndash;            name 属性：类里面属性名称&ndash;&gt;-->
+<!--&lt;!&ndash;            value 属性：向属性注入的值&ndash;&gt;-->
+
+<!--&lt;!&ndash;        注入特殊符号的字面量&ndash;&gt;-->
+<!--&lt;!&ndash;        可以使用 &lt;&gt; 进行转义&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="bname" value="&lt;&lt;易筋经&gt;&gt;"></property>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        也可以使用 XML 中的 CDATA,把带特殊符号内容写到CDATA中&ndash;&gt;-->
+<!--        <property name="bname">-->
+<!--            <value><![CDATA[<<易筋经>>]]></value>-->
+<!--        </property>-->
+
+<!--&lt;!&ndash;       使用 null 标签注入一个 null 字面量&ndash;&gt;-->
+<!--        <property name="id" >-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    配置对象创建&ndash;&gt;-->
+<!--&lt;!&ndash;    外部注入方式注入 bean 类型属性&ndash;&gt;-->
+<!--&lt;!&ndash;    server 实现类和 Dao 实现类对象创建配置&ndash;&gt;-->
+<!--    <bean id="userServer" class="com.hfm.server.UserServer">-->
+<!--&lt;!&ndash;        name 属性名称&ndash;&gt;-->
+<!--&lt;!&ndash;        ref 属性:连接到的对象配置的 id ,用于配置 属性对应的对象&ndash;&gt;-->
+<!--&lt;!&ndash;        注入外部 bean 属性&ndash;&gt;-->
+<!--        <property name="userDao" ref="userDaoImpl"></property>-->
+<!--    </bean>-->
+<!--&lt;!&ndash;     外部 bean 属性对象的创建配置&ndash;&gt;-->
+<!--    <bean id="userDaoImpl" class="com.hfm.dao.impl.UserDaoImpl"></bean>-->
+
+<!--    配置对象创建 -->
+<!--    <bean id="dept" class="com.hfm.entity.Dept">-->
+<!--        <property name="deptId">-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--        <property name="deptName" value="科技部"></property>-->
+<!--        <property name="employees" ref=""></property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    内部注入方式注入 bean 类型属性&ndash;&gt;-->
+<!--&lt;!&ndash;    目前只配置一对多中的多,指定多所在的一即可&ndash;&gt;-->
+<!--    <bean id="employee" class="com.hfm.entity.Employee">-->
+<!--        <property name="empId">-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--        <property name="empName" value="hfm"></property>-->
+<!--        <property name="empGender" value="男"></property>-->
+<!--        <property name="dept">-->
+<!--&lt;!&ndash;            内部注入方式注入 bean 类型属性&ndash;&gt;-->
+<!--&lt;!&ndash;            在内部创建 bean 标签注入 内部 bean 属性 &ndash;&gt;-->
+<!--            <bean id="dept" class="com.hfm.entity.Dept">-->
+<!--                <property name="deptName" value="科技部"></property>-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    级联注入 bean 类型属性&ndash;&gt;-->
+<!--    <bean id="employee" class="com.hfm.entity.Employee">-->
+<!--        <property name="empId">-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--        <property name="empName" value="hfm"></property>-->
+<!--        <property name="empGender" value="男"></property>-->
+<!--        <property name="dept" ref="dept"></property>-->
+<!--        <property name="dept.deptName" value="人事部"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="dept" class="com.hfm.entity.Dept">-->
+<!--        <property name="deptName" value="科技部"></property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    数组,list 集合,set 集合,Map 集合型数据注入&ndash;&gt;-->
+<!--    <bean id="stu" class="com.hfm.entity.Stu">-->
+<!--&lt;!&ndash;         String 数组型属性注入&ndash;&gt;-->
+<!--        <property name="courses">-->
+<!--&lt;!&ndash;           array 标签表示数组 &ndash;&gt;-->
+<!--            <array>-->
+<!--                <value>String 数组1</value>-->
+<!--                <value>String 数组2</value>-->
+<!--                <value>String 数组3</value>-->
+<!--            </array>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        对象数组型属性注入&ndash;&gt;-->
+<!--        <property name="books">-->
+<!--&lt;!&ndash;            value-type 指定元素的数据类型&ndash;&gt;-->
+<!--            <array value-type="com.hfm.entity.Book">-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--            </array>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        String list 集合&ndash;&gt;-->
+<!--        <property name="strings">-->
+<!--&lt;!&ndash;            list 表示集合&ndash;&gt;-->
+<!--            <list>-->
+<!--                <value>String list 集合1</value>-->
+<!--                <value>String list 集合2</value>-->
+<!--                <value>String list 集合3</value>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        对象集合&ndash;&gt;-->
+<!--        <property name="bookList">-->
+<!--&lt;!&ndash;           value-type 指定元素的数据类型 &ndash;&gt;-->
+<!--            <list value-type="com.hfm.entity.Book">-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        String set 集合&ndash;&gt;-->
+<!--        <property name="sets">-->
+<!--&lt;!&ndash;            set 标签表示Set 集合&ndash;&gt;-->
+<!--            <set>-->
+<!--                <value>String set 集合1</value>-->
+<!--                <value>String set 集合2</value>-->
+<!--                <value>String set 集合3</value>-->
+<!--            </set>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        对象 Set 集合&ndash;&gt;-->
+<!--        <property name="bookSet">-->
+<!--            <set value-type="com.hfm.entity.Book">-->
+<!--&lt;!&ndash;                不能存储重复元素&ndash;&gt;-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--                <ref bean="book"></ref>-->
+<!--            </set>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        String map 集合属性&ndash;&gt;-->
+<!--        <property name="maps">-->
+<!--&lt;!&ndash;            map 标签表示 Map 集合&ndash;&gt;-->
+<!--&lt;!&ndash;            value-type 表示键值对中值的数据类型&ndash;&gt;-->
+<!--            <map value-type="java.lang.String">-->
+<!--&lt;!&ndash;                entry 标签表示 map 元素&ndash;&gt;-->
+<!--&lt;!&ndash;                value 表示值&ndash;&gt;-->
+<!--                <entry key="1" value="String Map 集合1"></entry>-->
+<!--                <entry key="2" value="String Map 集合2"></entry>-->
+<!--                <entry key="3" value="String Map 集合3"></entry>-->
+<!--            </map>-->
+<!--        </property>-->
+<!--&lt;!&ndash;        对象 Map 集合&ndash;&gt;-->
+<!--        <property name="bookMap">-->
+<!--&lt;!&ndash;            value-type 表示键值对中值的数据类型&ndash;&gt;-->
+<!--&lt;!&ndash;            key-type 表示键值对中键的数据类型&ndash;&gt;-->
+<!--            <map key-type="java.lang.String" value-type="com.hfm.entity.Book">-->
+<!--&lt;!&ndash;                value-ref 指定外部的 bean 创建 值&ndash;&gt;-->
+<!--                <entry key="1" value-ref="book"></entry>-->
+<!--                <entry key="2" value-ref="book"></entry>-->
+<!--                <entry key="3" value-ref="book"></entry>-->
+<!--            </map>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    scope 属性设置 bean 是单实例还是多实例&ndash;&gt;-->
+<!--    <bean id="book" class="com.hfm.entity.Book" scope="prototype">-->
+<!--        <property name="id" >-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--        <property name="bname" value="对象数组或对象集合"></property>-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    factoryBean 对象创建配置&ndash;&gt;-->
+<!--    <bean id="bookFactory" class="com.hfm.entity.BookFactory">-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    bean 的生命周期&ndash;&gt;-->
+<!--&lt;!&ndash;    init-method 初始化方法&ndash;&gt;-->
+<!--&lt;!&ndash;    destroy-method 销毁方法&ndash;&gt;-->
+<!--    <bean id="lifeBean" class="com.hfm.entity.LifeBean" init-method="initMethod" destroy-method="destroyMethod">-->
+<!--        <property name="name" value="myName"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="myBeanPostProcessor" class="com.hfm.entity.MyBeanPostProcessor">-->
+<!--    </bean>-->
+
+<!--&lt;!&ndash;    自动装配&ndash;&gt;-->
+<!--&lt;!&ndash;    bean 标签中的 autowire 属性可以配置自动装配&ndash;&gt;-->
+<!--&lt;!&ndash;    autowire属性值 byName 通过属性名注入 byType 通过属性类型&ndash;&gt;-->
+<!--&lt;!&ndash;    byName 通过属性名注入 bean 的名称与属性名要相同&ndash;&gt;-->
+<!--&lt;!&ndash;    byType 通过属性类型 bean 的类型与属性类型相同&ndash;&gt;-->
+<!--    <bean id="emp" class="com.hfm.entity.Employee" autowire="byType">-->
+<!--&lt;!&ndash;        手动装配&ndash;&gt;-->
+<!--&lt;!&ndash;        <property name="dept" ref="dept"></property>&ndash;&gt;-->
+<!--    </bean>-->
+<!--    <bean id="dept" class="com.hfm.entity.Dept"></bean>-->
+
+</beans>

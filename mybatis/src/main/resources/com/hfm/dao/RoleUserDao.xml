@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfm.dao.RoleUserDao">
+    <resultMap id="roleUserMap" type="com.hfm.domain.RoleUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="address" property="address"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <collection property="roles" ofType="com.hfm.domain.Role">
+            <id property="roleId" column="rid"/>
+            <result property="roleName" column="role_name"/>
+            <result property="roleDesc" column="role_desc"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="roleUserMap">
+        SELECT
+            u.*,
+            r.id rid,
+            r.role_name role_name,
+            r.role_desc role_desc
+        FROM
+            mb_user u
+        left outer JOIN
+           mb_user_role ur
+        ON ( u.id = ur.uid)
+        left outer JOIN
+           mb_role r
+        ON (ur.rid = r.id);
+    </select>
+
+    <select id="findById" parameterType="Integer" resultType="com.hfm.domain.RoleUser">
+        select * from mb_user where id = #{id}
+    </select>
+</mapper>

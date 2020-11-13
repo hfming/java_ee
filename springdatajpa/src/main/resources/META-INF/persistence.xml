@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <!--    需要配置 persistence-unit 节点-->
+    <!--    配置持久化单元-->
+    <!--    name 属性：持久化单元名称-->
+    <!--    transaction-type：事务管理方式-->
+    <!--        JTA : 分布式事务管理 不同的表分散到不同的数据库-->
+    <!--        RESOURCE_LOCAL:本地事务管理 所有的表在一个数据库-->
+    <persistence-unit name="myjpa" transaction-type="RESOURCE_LOCAL">
+        <!--    JPA 实现方式，配置JPA规范的服务提供商-->
+        <!--        1. 实际上配置的是  javax.persistence.spi.PersistenceProvider 接口的实现类-->
+        <!--  		2. 若 JPA 项目中只有一个 JPA 的实现产品, 则也可以不配置该节点. -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>com.hfm.domain.Customer</class>
+
+        <properties>
+            <!--    数据库信息-->
+            <!--            用户名：javax.persistence.jdbc.user-->
+            <!--            密码：javax.persistence.jdbc.password-->
+            <!--            数据库驱动：javax.persistence.jdbc.driver-->
+            <!--            URL：javax.persistence.jdbc.url-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://47.99.213.57:3306/jpa?autoReconnect=true&amp;useSSL=false&amp;characterEncoding=utf-8"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="tiger2018"/>
+
+            <!--    可选配置，配置jpa 实现方的信息-->
+            <!-- jpa提供者的可选配置：我们的JPA规范的提供者为hibernate，所以jpa的核心配置中兼容hibernate的配 -->
+            <!--        输出底层 sql-->
+            <property name="hibernate.show_sql" value="true"/>
+            <!--        输出底层 sql 语句格式-->
+            <property name="hibernate.format_sql" value="true"/>
+            <!--        hibernate 会自动创建表,如果有表则更新,如果没有表则创建-->
+            <!--            create : 程序运行时创建数据库表(如果有表，先删除表在创建)-->
+            <!--            update :程序运行时创建表（如果有表不会创建表）-->
+            <!--            none :不会创建表-->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--        配置数据库方言,mysql 分页使用 limit, oracle 分页使用 rownum 关键字,让hibernate 自己识别数据库方言-->
+            <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+
+            <!--        session 绑定本地线程-->
+            <!--            <property name="hibernate.current_session_context_class" value="thread"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!-- 常量值配置 -->
+    <!-- 配置字符编码-->
+    <constant name="struts.i18n.encoding" value="utf-8"></constant>
+
+    <!-- 配置 Struts2 可以接收的请求扩展名-->
+    <constant name="struts.action.extension" value="action,do"></constant>
+
+    <!-- 允许动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+
+    <!-- 允许调用静态方法-->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+
+    <!--     Struts2 初始案例 -->
+    <!--     一个模块对应一个包 -->
+    <!--     package 包：struts2 使用 package 来组织模块-->
+    <!--     name:用于其他包 引用/继承 当前包-->
+    <!--     extends:当前包继承，那个包，可以继承其中所有的配置，通常继承 struts-default -->
+    <!--     namespace 名称空间-->
+    <package name="employee" namespace="/" extends="struts-default">
+        <!--        配置参数拦截器-->
+        <!-- 定义新的拦截器栈, 配置 prepare 拦截器栈的 alwaysInvokePrepare 参数值为 false -->
+        <interceptors>
+            <interceptor-stack name="sshStack">
+                <interceptor-ref name="paramsPrepareParamsStack">
+                    <param name="prepare.alwaysInvokePrepare">false</param>
+                </interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <!-- 使用新的拦截器栈 -->
+        <default-interceptor-ref name="sshStack"></default-interceptor-ref>
+
+        <!--        Spring 整合 Struts2 时, 在 Struts2 中配置的 Spring 的 Action 的 class 需要指向 IOC 容器中该 bean 的 id-->
+        <action name="employee_findAll" class="employeeAction" method="findAll">
+            <result name="findAll">/jsp/emp-list.jsp</result>
+        </action>
+        <!--        删除员工-->
+        <action name="employee_delete" class="employeeAction" method="delete">
+            <result name="delete"></result>
+        </action>
+        <!--        修改员工-->
+        <action name="employee_update" class="employeeAction" method="update">
+            <!--            跳转到其他 action 中-->
+            <result name="update" type="redirectAction">department_findAll</result>
+        </action>
+        <!--        添加员工-->
+        <action name="employee_add" class="employeeAction" method="add">
+            <result name="add" type="redirectAction">employee_findAll</result>
+        </action>
+        <!--        员工名是否可用-->
+        <action name="employee_nameExited" class="employeeAction" method="nameExited">
+
+        </action>
+    </package>
+
+    <package name="department" namespace="/" extends="struts-default">
+        <!--        查询所有部门-->
+        <action name="department_findAll*" class="departmentAction" method="findAll">
+            <result name="findAll">/jsp/emp-input.jsp</result>
+        </action>
+    </package>
+</struts>

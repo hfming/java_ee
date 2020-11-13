@@ -1,0 +1,19 @@
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+<!-- 声明验证-->
+<validators>
+<!--    针对属性进行验证,基于字段验证-->
+    <field name="username">
+<!--        type 验证器-->
+        <field-validator type="requiredstring">
+<!--            错误消息-->
+            <message key="requiredstring"/>
+        </field-validator>
+    </field>
+    <field name="password">
+        <field-validator type="requiredstring">
+            <message key="requiredstring"/>
+        </field-validator>
+    </field>
+</validators>

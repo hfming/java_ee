@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfm.dao.AccountDao3">
+<!--    第一种方式实现一对多-->
+    <select id="findAll" resultType="com.hfm.domain.subject.AccountSubject">
+       select a.*,u.username,u.address from mb_account a,mb_user u where a.uid =u.id;
+    </select>
+
+    <!-- 建立对应关系 -->
+    <resultMap type="com.hfm.domain.Account" id="accountMap">
+        <id column="aid" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="money" property="money"/>
+        <!-- 它是用于指定从表方的引用实体属性的 -->
+        <association property="user" javaType="com.hfm.domain.User">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="sex" property="sex"/>
+            <result column="birthday" property="birthday"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+<!--    第二种方式实现一对多-->
+    <select id="findAll2" resultMap="accountMap">
+        select u.*,a.id as aid,a.uid,a.money from mb_account a,mb_user u where a.uid =u.id;
+    </select>
+
+    <resultMap id="lazyMap" type="com.hfm.domain.Account">
+        <id column="aid" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="money" property="money"/>
+        <!-- 它是用于指定从表方的引用实体属性的 -->
+<!--        select 属性指定查询用户的唯一标识 填写我们要调用的 select 映射的 id -->
+<!--        column 属性指定根据id 查询时所需要是值 填写我们要传递给 select 映射的参数-->
+        <association property="user" javaType="com.hfm.domain.User" select="com.hfm.dao.UserDao3.findById" column="uid" />
+    </resultMap>
+
+<!--    一对多延迟加载-->
+    <select id="lazyFind" resultMap="lazyMap">
+        select * from mb_account
+    </select>
+</mapper>

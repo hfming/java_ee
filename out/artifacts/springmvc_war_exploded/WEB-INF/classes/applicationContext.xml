@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 导入 web context 名称空间-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--开启注解扫描-->
+    <context:component-scan base-package="com.hfm"></context:component-scan>
+
+    <!--    配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--        配置跳转的文件所在的目录-->
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <!--        配置文件的后缀名-->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--    配置静态资源不过滤-->
+    <!-- location表示路径，mapping表示文件，**表示该目录下的文件以及子目录的文件 -->
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
+    <mvc:resources location="/scripts/" mapping="/scripts/**"/>
+
+    <!-- 配置类型转换器工厂 -->
+    <bean id="converterService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <!-- 给工厂注入一个新的类型转换器 -->
+        <property name="converters">
+            <set>
+                <!-- 配置自定义类型转换器 -->
+                <bean class="com.hfm.utils.converter.StringToDateConverter"></bean>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 引用自定义类型转换器 -->
+    <mvc:annotation-driven conversion-service="converterService"></mvc:annotation-driven>
+
+    <!--    配置文件解析器对象-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--        上传文件的大小-->
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+
+    <!-- 配置自定义异常处理器 -->
+    <bean id="handlerExceptionResolver" class="com.hfm.exception.MyHandlerException"/>
+
+    <!-- 配置拦截器栈 -->
+    <mvc:interceptors>
+        <!--        配置拦截器1-->
+        <mvc:interceptor>
+            <!--            拦截的地址，具体要拦截的方法-->
+            <mvc:mapping path="/**"/>
+            <!--            不要拦截的方法-->
+            <!--            <mvc:exclude-mapping path=""/>-->
+            <!-- 注册拦截器对象 -->
+            <bean id="myHandlerInterceptor1" class="com.hfm.interceptor.MyHandlerInterceptor1"></bean>
+        </mvc:interceptor>
+        <!--        配置拦截器2-->
+        <mvc:interceptor>
+            <!--            拦截的地址，具体要拦截的方法-->
+            <mvc:mapping path="/**"/>
+            <!--            不要拦截的方法-->
+            <!--            <mvc:exclude-mapping path=""/>-->
+            <!-- 注册拦截器对象 -->
+            <bean id="myHandlerInterceptor2" class="com.hfm.interceptor.MyHandlerInterceptor2"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

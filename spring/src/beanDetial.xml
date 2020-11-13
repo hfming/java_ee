@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 创建 bean 对象的方式一:使用默认无参构造函数创建 bean 对象-->
+    <!-- 在默认情况下： 它会根据默认无参构造函数来创建类对象。如果bean中没有默认无参构造函数，将会创建失败。-->
+<!--    <bean id="myBean" class="com.hfm.bean.MyBean"></bean>-->
+
+    <!--    创建 bean 对象的方式二: 使用实例工厂创建 bean 对象-->
+    <!--    模拟一个工厂类（该类可能是存在于jar包中的，我们无法通过修改源码的方式来提供默认构造函数）-->
+    <!--    先把工厂的创建交给spring来管理。 然后在使用工厂的bean来调用里面的方法 -->
+    <!--    id属性：指定bean的id，用于从容器中获取-->
+    <!--    class属性：指定静态工厂的全限定类名-->
+<!--    <bean id="myBeanFactory" class="com.hfm.bean.MyBeanFactory"></bean>-->
+    <!--    factory-bean 指定工厂 bean -->
+    <!--    factory-method 指定生产 bean 对象的静态方法 -->
+<!--    <bean id="myBean" factory-bean="myBeanFactory" factory-method="getMyBean"></bean>-->
+
+    <!--    创建 bean 对象的方式三: 使用静态工厂创建 bean 对象-->
+    <!--    使用StaticFactory类中的静态方法createAccountService创建对象，并存入spring容器-->
+<!--    <bean id="myBean" class="com.hfm.bean.MyStaticBeanFactory" factory-method="getMyBean"></bean>-->
+
+    <!--    bean 的生命周期-->
+    <!-- scope 属性设置 bean 是单实例还是多实例-->
+    <!--    singleton  单例-->
+    <!--    prototype 原型-->
+    <bean id="book" class="com.hfm.dixml.Book" scope="singleton">
+        <property name="id">
+            <null></null>
+        </property>
+        <property name="bname" value="对象数组或对象集合"></property>
+    </bean>
+
+    <!--    factoryBean 对象创建配置-->
+    <bean id="bookFactory" class="com.hfm.bean.BookFactory">
+    </bean>
+
+    <!--    bean 的生命周期-->
+    <!--    init-method 初始化方法-->
+    <!--    destroy-method 销毁方法-->
+    <bean id="lifeBean" class="com.hfm.bean.LifeBean" init-method="initMethod" destroy-method="destroyMethod">
+        <property name="name" value="myName"></property>
+    </bean>
+
+    <bean id="myBeanPostProcessor" class="com.hfm.bean.MyBeanPostProcessor">
+    </bean>
+</beans>

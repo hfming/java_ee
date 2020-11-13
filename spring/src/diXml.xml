@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--   set方法注入属性-->
+    <bean id="diBookBySet" class="com.hfm.dixml.DIBookBySet">
+        <!--        涉及的标签：property 标签完成属性注入-->
+        <!--        出现的位置：bean标签的内部-->
+        <!--        name：用于指定注入时所调用的 set 方法名称-->
+        <!--        value：用于提供基本类型和 String 类型的数据-->
+        <!--        ref：用于指定其他的bean类型数据。它指的就是在spring的Ioc核心容器中出现过的bean对象-->
+        <!--        优势：创建对象时没有明确的限制，可以直接使用默认构造函数-->
+        <!--        弊端：如果有某个成员必须有值，则获取对象是有可能set方法没有执行。-->
+        <property name="bname" value="易筋经"></property>
+        <property name="id" value="1"></property>
+    </bean>
+
+    <!--    有参构造函数方式注入属性-->
+    <bean id="diBookByConstructor" class="com.hfm.dixml.DIBookByConstructor">
+        <!--        使用的标签:constructor-arg-->
+        <!--        标签出现的位置：bean标签的内部-->
+        <!--        type：用于指定要注入的数据的数据类型，该数据类型也是构造函数中某个或某些参数的类型-->
+        <!--        index：用于指定要注入的数据给构造函数中指定索引位置的参数赋值。索引的位置是从0开始-->
+        <!--        name：用于指定给构造函数中指定名称的参数赋值                                 -->
+        <!--        =============以上三个用于指定给构造函数中哪个参数赋值=========================-->
+        <!--        value：用于提供基本类型和String类型的数据-->
+        <!--        ref：用于指定其他的bean类型数据。它指的就是在spring的Ioc核心容器中出现过的bean对象-->
+        <!--        优势：在获取bean对象时，注入数据是必须的操作，否则对象无法创建成功。-->
+        <!--        弊端：改变了bean对象的实例化方式，使我们在创建对象时，如果用不到这些数据，也必须提供。-->
+        <constructor-arg name="id" value="1"></constructor-arg>
+        <constructor-arg name="bname" value="China"></constructor-arg>
+        <!--        <constructor-arg index="0" value="1"></constructor-arg>-->
+    </bean>
+
+    <!--   使用 P 名称空间注入属性-->
+    <!--   配置对象的创建-->
+    <bean id="diBookByP" class="com.hfm.dixml.DIBookByP" p:id="1" p:bname="九阳神功">
+    </bean>
+
+    <!--   字面量类型注入-->
+    <!--   配置对象的创建-->
+    <bean id="book" class="com.hfm.dixml.Book">
+        <!--        使用 property 标签完成属性注入 -->
+        <!--            name 属性：类里面属性名称-->
+        <!--            value 属性：向属性注入的值-->
+        <!--        注入特殊符号的字面量-->
+        <!--        可以使用 &lt;&gt; 进行转义-->
+        <!--        <property name="bname" value="&lt;&lt;易筋经&gt;&gt;"></property>-->
+        <!--        也可以使用 XML 中的 CDATA,把带特殊符号内容写到CDATA中-->
+        <property name="bname">
+            <value><![CDATA[<<易筋经>>]]></value>
+        </property>
+        <!--       使用 null 标签注入一个 null 字面量-->
+        <property name="id">
+            <null></null>
+        </property>
+    </bean>
+
+    <!--    外部注入方式注入 bean 类型属性-->
+    <!--    server 实现类和 Dao 实现类对象创建配置-->
+    <bean id="bookServer" class="com.hfm.dixml.BookServerImpl">
+        <!--        name 属性名称-->
+        <!--        ref 属性:连接到的对象配置的 id ,用于配置 属性对应的对象-->
+        <!--        注入外部 bean 属性-->
+        <property name="bookDao" ref="bookDao"></property>
+    </bean>
+    <!--     外部 bean 属性对象的创建配置-->
+    <bean id="bookDao" class="com.hfm.dixml.BookDaoImpl"></bean>
+
+<!--    &lt;!&ndash;    内部注入方式注入 bean 类型属性&ndash;&gt;-->
+<!--    &lt;!&ndash;    目前只配置一对多中的多,指定多所在的一即可&ndash;&gt;-->
+<!--    <bean id="employee" class="com.hfm.dixml.Employee">-->
+<!--        <property name="empId">-->
+<!--            <null></null>-->
+<!--        </property>-->
+<!--        <property name="empName" value="hfm"></property>-->
+<!--        <property name="empGender" value="男"></property>-->
+<!--        <property name="dept">-->
+<!--            &lt;!&ndash;            内部注入方式注入 bean 类型属性&ndash;&gt;-->
+<!--            &lt;!&ndash;            在内部创建 bean 标签注入 内部 bean 属性 &ndash;&gt;-->
+<!--            <bean id="dept" class="com.hfm.dixml.Dept">-->
+<!--                <property name="deptName" value="科技部"></property>-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+    <bean id="dept" class="com.hfm.dixml.Dept">
+        <property name="deptId">
+            <null></null>
+        </property>
+        <property name="deptName" value="科技部"></property>
+<!--        <property name="employees" ref="employee"></property>-->
+    </bean>
+
+    <!--        级联注入 bean 类型属性-->
+    <bean id="employee2" class="com.hfm.dixml.Employee">
+        <property name="empId">
+            <null></null>
+        </property>
+        <property name="empName" value="hfm"></property>
+        <property name="empGender" value="男"></property>
+        <property name="dept" ref="dept"></property>
+        <property name="dept.deptName" value="人事部"></property>
+    </bean>
+
+    <!--    String 数组,对象数组,String list 集合,对象 list 集合,String set 集合,对象 set 集合,String map 集合,对象 map 集合 类型属性注入-->
+    <bean id="bookCompositeProperty" class="com.hfm.dixml.BookCompositeProperty">
+        <!--         String 数组型属性注入-->
+        <property name="courses">
+            <!--           array 标签表示数组 -->
+            <array>
+                <value>String 数组1</value>
+                <value>String 数组2</value>
+                <value>String 数组3</value>
+            </array>
+        </property>
+        <!--        对象数组型属性注入-->
+        <property name="books">
+            <!--            value-type 指定元素的数据类型-->
+            <array value-type="com.hfm.dixml.Book">
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+            </array>
+        </property>
+        <!--        String list 集合-->
+        <property name="strings">
+            <!--            list 表示集合-->
+            <list>
+                <value>String list 集合1</value>
+                <value>String list 集合2</value>
+                <value>String list 集合3</value>
+            </list>
+        </property>
+        <!--        对象集合-->
+        <property name="bookList">
+            <!--           value-type 指定元素的数据类型 -->
+            <list value-type="com.hfm.dixml.Book">
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+            </list>
+        </property>
+        <!--        String set 集合-->
+        <property name="sets">
+            <!--            set 标签表示Set 集合-->
+            <set>
+                <value>String set 集合1</value>
+                <value>String set 集合2</value>
+                <value>String set 集合3</value>
+            </set>
+        </property>
+        <!--        对象 Set 集合-->
+        <property name="bookSet">
+            <set value-type="com.hfm.dixml.Book">
+                <!--                不能存储重复元素-->
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+            </set>
+        </property>
+        <!--        String map 集合属性-->
+        <property name="maps">
+            <!--            map 标签表示 Map 集合-->
+            <!--            value-type 表示键值对中值的数据类型-->
+            <map value-type="java.lang.String">
+                <!--                entry 标签表示 map 元素-->
+                <!--                value 表示值-->
+                <entry key="1" value="String Map 集合1"></entry>
+                <entry key="2" value="String Map 集合2"></entry>
+                <entry key="3" value="String Map 集合3"></entry>
+            </map>
+        </property>
+        <!--        对象 Map 集合-->
+        <property name="bookMap">
+            <!--            value-type 表示键值对中值的数据类型-->
+            <!--            key-type 表示键值对中键的数据类型-->
+            <map key-type="java.lang.String" value-type="com.hfm.dixml.Book">
+                <!--                value-ref 指定外部的 bean 创建 值-->
+                <entry key="1" value-ref="book"></entry>
+                <entry key="2" value-ref="book"></entry>
+                <entry key="3" value-ref="book"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--    自动装配-->
+    <!--    bean 标签中的 autowire 属性可以配置自动装配-->
+    <!--    autowire属性值 byName 通过属性名注入 byType 通过属性类型-->
+    <!--    byName 通过属性名注入 bean 的名称与属性名要相同-->
+    <!--    byType 通过属性类型 bean 的类型与属性类型相同-->
+    <bean id="emp" class="com.hfm.dixml.Employee" autowire="byType">
+        <!--        手动装配-->
+        <!--        <property name="dept" ref="dept"></property>-->
+    </bean>
+</beans>

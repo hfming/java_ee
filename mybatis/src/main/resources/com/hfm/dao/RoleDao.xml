@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfm.dao.RoleDao">
+    <!--定义role表的ResultMap-->
+    <resultMap id="roleMap" type="com.hfm.domain.Role">
+        <id property="roleId" column="rid"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <collection property="users" ofType="com.hfm.domain.RoleUser">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+            <result column="address" property="address"/>
+            <result column="sex" property="sex"/>
+            <result column="birthday" property="birthday"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="roleMap">
+        SELECT
+           r.*,u.id uid,
+           u.username username,
+           u.birthday birthday,
+           u.sex sex,
+           u.address address
+        FROM
+           mb_role r
+        INNER JOIN
+           mb_user_role ur
+        ON ( r.id = ur.rid)
+        INNER JOIN
+           mb_user u
+        ON (ur.uid = u.id);
+    </select>
+
+    <select id="findById" parameterType="Integer" resultType="com.hfm.domain.Role">
+        select * from mb_role where id = #{id}
+    </select>
+
+    <resultMap id="lazyMap" type="com.hfm.domain.Role">
+        <id property="roleId" column="id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleDesc" column="role_desc"/>
+        <collection property="users" ofType="com.hfm.domain.RoleUser" select="com.hfm.dao.RoleUserDao.findById" column="id"/>
+    </resultMap>
+<!--    多对多延迟加载 -->
+    <select id="lazyFind" resultMap="lazyMap">
+        select * from mb_role
+    </select>
+</mapper>

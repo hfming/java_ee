@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!-- 常量值配置 -->
+    <!-- 配置字符编码-->
+    <constant name="struts.i18n.encoding" value="utf-8"></constant>
+
+    <!-- 配置 Struts2 可以接收的请求扩展名-->
+    <constant name="struts.action.extension" value="action,do"></constant>
+
+    <!-- 允许动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+
+    <!-- 允许调用静态方法-->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+
+    <!-- Struts2 初始案例 -->
+    <!-- 一个模块对应一个包 -->
+    <!-- package 包：struts2 使用 package 来组织模块-->
+    <!-- name:用于其他包 引用/继承 当前包-->
+    <!-- extends:当前包继承，那个包，可以继承其中所有的配置，通常继承 struts-default -->
+    <!-- namespace 名称空间-->
+<!--    <package name="helloWorld" namespace="/" extends="struts-default">-->
+<!--        &lt;!&ndash; 配置一个 action ,一个 struts2 的请求就是一个action&ndash;&gt;-->
+<!--        &lt;!&ndash; name 对应一个 struts2 的请求名(一个servletPath,去除 / 和扩展名)，不包含扩展名&ndash;&gt;-->
+<!--        &lt;!&ndash; result :结果&ndash;&gt;-->
+<!--        <action name="product-input">-->
+<!--            <result>/test/input.jsp</result>-->
+<!--        </action>-->
+
+<!--        &lt;!&ndash; class 默认值在 struts-default.xml 中有配置 com.opensymphony.xwork2.ActionSupport&ndash;&gt;-->
+<!--        &lt;!&ndash; method 默认值 execute 对应 com.opensymphony.xwork2.ActionSupport 类中的 execute，默认调用该类的 execute 方法 &ndash;&gt;-->
+<!--        <action name="product-save" class="com.hfm.web.action.ProductAction" method="save">-->
+<!--            &lt;!&ndash; result 表示 action 方法执行后可能返回的结果&ndash;&gt;-->
+<!--            &lt;!&ndash; result 返回值默认位为 com.opensymphony.xwork2.ActionSupport 的 execute 方法的返回值 success&ndash;&gt;-->
+<!--            &lt;!&ndash; 一个 action 节点可能会有多个 result 子节点，多个 result 子节点通过 name 来区分&ndash;&gt;-->
+<!--            &lt;!&ndash; name 属性标识一个 action 方法的返回值，默认为 success &ndash;&gt;-->
+<!--            &lt;!&ndash; type 属性表示结果的类型，默认为 dispatcher 转发，可以为 redirect(重定向)，chain(放行)&ndash;&gt;-->
+<!--            <result name="save" type="dispatcher">/test/details.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+<!--    <package name="test" namespace="/" extends="struts-default" >-->
+<!--        &lt;!&ndash; 全局结果页面配置 &ndash;&gt;-->
+<!--        <global-results>-->
+<!--            <result name="error">/WEB-INF/jsp/error.jsp</result>-->
+<!--        </global-results>-->
+<!--        &lt;!&ndash;  全局声明式异常处理&ndash;&gt;-->
+<!--        <global-exception-mappings>-->
+<!--            <exception-mapping exception="java.lang.Exception" result="error"/>-->
+<!--        </global-exception-mappings>-->
+<!--    </package>-->
+
+    <!--    访问 Action 类的 action 方法,使用 action 标签的 method 属性，指定访问特定方法 -->
+<!--    <package name="useraction" extends="struts-default" namespace="/">-->
+<!--        <action name="action1" class="com.hfm.visitaction.VisitAction" method="action1">-->
+<!--            <result name="success"></result>-->
+<!--        </action>-->
+<!--        <action name="action2" class="com.hfm.visitaction.VisitAction" method="action2">-->
+<!--            <result name="input"></result>-->
+<!--        </action>-->
+<!--        <action name="action3" class="com.hfm.visitaction.VisitAction" method="action3">-->
+<!--            <result></result>-->
+<!--        </action>-->
+<!--        <action name="action4" class="com.hfm.visitaction.VisitAction" method="action4">-->
+<!--            <result name="login"></result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!--    访问 Action 类的 action 方法,使用通配符匹配 -->
+<!--    <package name="useraction" extends="struts-default" namespace="/">-->
+<!--        <action name="*" class="com.hfm.visitaction.VisitAction" method="{1}">-->
+<!--            <result name="{1}">/test/{1}.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!--    案例-->
+<!--    <package name="customer" extends="struts-default" namespace="/">-->
+<!--        <action name="customer_*" class="com.hfm.web.action.CustomerAction" method="{1}">-->
+<!--            <result name="{1}">/jsp/customer/list.jsp</result>-->
+<!--            <result name="toAddPage">/jsp/customer/add.jsp</result>-->
+<!--            <result name="saveSuccess" type="redirectAction">customer_findAll</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!--    获取 web 资源的方式-->
+<!--    <package name="getweb" extends="struts-default" namespace="/">-->
+<!--        &lt;!&ndash;        通过 ActionContext 类获取&ndash;&gt;-->
+<!--        <action name="actionContext-test" class="com.hfm.getweb.ActionContextTest" method="test">-->
+<!--            <result name="test">/test/actionTest.jsp</result>-->
+<!--        </action>-->
+<!--        &lt;!&ndash;        通过 servletActionContext 类获取&ndash;&gt;-->
+<!--        <action name="servletActionContext-test" class="com.hfm.getweb.ServletActionContextTest" method="test">-->
+<!--            <result name="test">/test/actionTest.jsp</result>-->
+<!--        </action>-->
+<!--        &lt;!&ndash;        通过 实现 ServletXXXAware 接口获取&ndash;&gt;-->
+<!--        <action name="serletAware-test" class="com.hfm.getweb.ServletAwareTest" method="test">-->
+<!--            <result name="test">/test/awareTest.jsp</result>-->
+<!--        </action>-->
+<!--        &lt;!&ndash;        通过实现 XXXAware 接口获取&ndash;&gt;-->
+<!--        <action name="aware-test" class="com.hfm.getweb.AwareTest" method="test">-->
+<!--            <result name="test">/test/awareTest.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!-- web 资源访问案例-->
+<!--    <package name="user" extends="struts-default" namespace="/">-->
+<!--        <action name="*" class="com.hfm.web.action.UserAction" method="{1}">-->
+<!--            <result name="login" type="redirect">/test/logout.jsp</result>-->
+<!--            <result name="logout" type="redirect">/test/login.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!-- struts2 数据封装-->
+<!--    <package name="getdata" extends="struts-default" namespace="/">-->
+<!--        <action name="*" class="com.hfm.getdata.{1}">-->
+<!--            <result>/test/gdata.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <!--    OGNL 表达式与值栈-->
+<!--    <package name="valueStack" extends="struts-default" namespace="/">-->
+<!--        <action name="valueStack_*" class="com.hfm.valuestrcak.ValueStrack" method="{1}">-->
+<!--            <result name="{1}">/ognl/valueStack.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+<!--    自定义拦截器-->
+<!--    <package name="login" extends="struts-default" namespace="/">-->
+<!--&lt;!&ndash;        声明自定义拦截器&ndash;&gt;-->
+<!--        <interceptors>-->
+<!--            <interceptor name="LoginInterceptor" class="com.hfm.interceptor.LoginInterceptor"></interceptor>-->
+<!--        </interceptors>-->
+
+<!--        <action name="*" class="com.hfm.interceptor.LoginAction" method="login">-->
+<!--&lt;!&ndash;            使用自定义拦截器&ndash;&gt;-->
+<!--            <interceptor-ref name="LoginInterceptor">-->
+<!--&lt;!&ndash;                拦截器默认会拦截所有 action 方法,但是登录功能不能拦截,不然一直登录不上&ndash;&gt;-->
+<!--&lt;!&ndash;                需要配置拦截器使其不拦截 login 方法&ndash;&gt;-->
+<!--                <param name="excludeMethods">login</param>-->
+<!--            </interceptor-ref>-->
+<!--            -->
+<!--&lt;!&ndash;            调用默认拦截器,配置自定义拦截器时默认拦截器会失效,需要手动配置调用默认拦截器&ndash;&gt;-->
+<!--            <interceptor-ref name="defaultStack"></interceptor-ref>-->
+
+<!--            <result name="loginsuccess" type="redirect">index.htm</result>-->
+<!--            <result name="login" type="redirect">login.htm</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+<!--    Struts2 标签,通用标签与表单标签的使用-->
+        <package name="tag" extends="struts-default" namespace="/">
+            <action name="common_tag" class="com.hfm.web.action.ProductAction" method="testTag">
+                <result>/tag/commonTag.jsp</result>
+            </action>
+            <action name="form_tag">
+                <result>/tag/formTag.jsp</result>
+            </action>
+        </package>
+</struts>

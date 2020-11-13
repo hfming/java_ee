@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		                http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		                http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+    <!--    引入外部配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--   1. 创建数据库连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--    2.配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--    3.配置支持注解的事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--    4.配置 service 自动扫描的包-->
+    <context:component-scan base-package="com.hfm">
+        <!--       spring 管理 Controller 之外的对象 -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--    5.spring 整合 Mybatis-->
+    <!--    Mybatis-Plus 的集成非常简单，对于 Spring，我们仅仅需要把 Mybatis 自带的MybatisSqlSessionFactoryBean替换为 MP 自带的即可。 -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
+        <!--注册插件-->
+<!--        <property name="plugins">-->
+<!--            <array>-->
+<!--                &lt;!&ndash;注册分页插件&ndash;&gt;-->
+<!--                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>-->
+<!--                <bean class="com.github.pagehelper.PageInterceptor"/>-->
+<!--            </array>-->
+<!--        </property>-->
+        <!--        配置全局策略-->
+        <property name="globalConfig" ref="globalConfig"/>
+    </bean>
+
+    <!--    配置扫描 mapper 接口所在的包-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.hfm.mapper"/>
+    </bean>
+
+    <!--配置mp的全局策略 配置了这个就可以省略类上的@TableName()注解和主键上的@TableId()注解-->
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <!--配置数据库全局默认的映射关系-->
+        <property name="dbConfig">
+            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+                <!--声明全局默认类名的对应的表的前缀-->
+                <!-- <property name="tablePrefix" value="tbl_"/>-->
+                <!--配置全局主键自增-->
+                <property name="idType" value="AUTO"/>
+            </bean>
+        </property>
+    </bean>
+</beans>

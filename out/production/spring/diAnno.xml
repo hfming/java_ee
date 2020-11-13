@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--    开启组件扫描-->
+    <!--    base-package 指定扫描的包,如果有多个中间用 , 号隔开,或者扫描上层目录-->
+    <context:component-scan base-package="com.hfm.aopann,com.hfm.diann"></context:component-scan>
+
+    <!--    use-default-filters="false" 表示现在不使用默认filter，自己配置filter-->
+    <!--    context:include-filter 只扫描带 Controller 注解的类-->
+    <!--    <context:component-scan base-package="com.hfm" use-default-filters="false">-->
+    <!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+    <!--    </context:component-scan>-->
+
+    <!--   exclude-filter 不扫描带 Controller 注解的类-->
+    <!--    <context:component-scan base-package="com.hfm">-->
+    <!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+    <!--    </context:component-scan>-->
+</beans>

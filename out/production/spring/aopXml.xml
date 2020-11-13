@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--    配置对象的创建 -->
+    <bean id="newBook" class="com.hfm.aopxml.NewBook">
+        <property name="bookId">
+            <null></null>
+        </property>
+        <property name="bookName" value="时间简史"></property>
+        <property name="bookAuthor" value="霍夫曼"></property>
+    </bean>
+
+    <bean id="newBookDao" class="com.hfm.aopxml.NewBookDaoImpl">
+    </bean>
+
+    <bean id="newBookDaoImplProxy" class="com.hfm.aopxml.NewBookDaoImplProxy"></bean>
+
+    <!--    配置 aop 增强操作-->
+    <aop:config>
+        <!--        配置切入点-->
+        <!--        id 配置切入点 id(唯一标识)-->
+        <!--        expression 切入点表达式,用于配置 需要增强的具体类的方法-->
+        <aop:pointcut id="add" expression="execution(* com.hfm.aopxml.NewBookDaoImpl.add(..))"/>
+        <!--        配置切面-->
+        <aop:aspect ref="newBookDaoImplProxy">
+            <!--            配置增强作用在具体的方法上-->
+            <!--            method 属性设置调用的方法-->
+            <!--            pointcut-ref 设置增强的方法-->
+            <!--            前置通知-->
+            <aop:before method="before" pointcut-ref="add"></aop:before>
+            <!--            后置通知-->
+            <aop:after-returning method="afterReturning" pointcut-ref="add"></aop:after-returning>
+            <!--            最终通知-->
+            <aop:after method="after" pointcut-ref="add"></aop:after>
+            <!--            错误通知-->
+            <aop:after-throwing method="afterThrowing" pointcut-ref="add"></aop:after-throwing>
+            <!--            环绕通知-->
+            <aop:around method="around" pointcut-ref="add"></aop:around>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

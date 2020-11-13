@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		                http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		                http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+    <!--    开启组件扫描-->
+    <!-- Spring 核心配置文件，用于配置 Spring IOC 容器，用于管理实体类、Dao 层、server 层的bean-->
+    <context:component-scan base-package="com.hfm.dao,com.hfm.domain,com.hfm.server">
+        <!--        不扫描 Controller 注解-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!--    引入外部配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--   1. 创建数据库连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${prop.driverClassName}"/>
+        <property name="jdbcUrl" value="${prop.url}"/>
+        <property name="user" value="${prop.username}"/>
+        <property name="password" value="${prop.password}"/>
+    </bean>
+
+    <!--   2. 创建 EntityManangerfactory 对象交给 spring 容器管理-->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--        会扫描配置了 jpa 注解的类(实体类)-->
+        <property name="packagesToScan" value="com.hfm.domain"/>
+        <!--        配置jpa 的实现方式-->
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider">
+            </bean>
+        </property>
+        <!--        jpa 供应商适配器-->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <!--                配置是否自动创建表-->
+                <property name="generateDdl" value="true"/>
+                <!--                指定数据库类型-->
+                <property name="database" value="MYSQL"/>
+                <!--                配置数据库方言-->
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+                <!--                配置是否显示sql-->
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        <!--        配置 jpa 方言-->
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+
+        <!--        注入 jpa 配置信息-->
+        <!--        jpa 的基本配置信息与 jpa 实现方式的配置信息-->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!--                二级缓存相关-->
+                <!--                <prop key="hibernate.cache.use_second_level_cache">true</prop>-->
+                <!--                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>-->
+                <!--                <prop key="hibernate.cache.use_query_cache">true</prop>-->
+            </props>
+        </property>
+
+        <!--        二级缓存-->
+        <!--        <property name="sharedCacheMode" value="ENABLE_SELECTIVE"></property>-->
+    </bean>
+
+    <!--    3.配置事务管理器-->
+    <!-- JPA事务管理器  -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!--    配置支持注解的事务-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--    4.整合 Spring data Jpa -->
+    <!--    base-package 扫描 Repository bean 所在的包-->
+    <jpa:repositories base-package="com.hfm.dao"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory">
+    </jpa:repositories>
+</beans>
