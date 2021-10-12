@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
     <session-factory>
-        <!--        配置数据库的信息-->
+        <!--================配置数据库的信息=====================-->
         <!--        数据库驱动-->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <!--        数据库连接的URL-->
@@ -14,25 +14,32 @@
         <property name="hibernate.connection.username">root</property>
         <!--        密码-->
         <property name="hibernate.connection.password">tiger2018</property>
-
         <!--        设置事务隔离级别-->
-<!--        <property name="hibernate.connection.isolation">2</property>-->
-
-        <!--        配置 hibernate 的信息-->
-        <!--        输出底层 sql-->
-        <property name="hibernate.show_sql">true</property>
-        <!--        输出底层 sql 语句格式-->
-        <property name="hibernate.format_sql">true</property>
-        <!--        hibernate 会自动创建表,如果有表则更新,如果没有表则创建-->
-        <property name="hibernate.hbm2ddl.auto">update</property>
-        <!--        配置数据库方言,mysql 分页使用 limit, oracle 分页使用 rownum 关键字,让hibernate 自己识别数据库方言-->
-        <!--        数据库方言可能会出现问题-->
+        <!--<property name="hibernate.connection.isolation">2</property>-->
+        <!--        配置数据库方言,mysql 分页使用 limit, oracle 分页使用 rownum 关键字,建议让hibernate 自己识别数据库方言-->
+        <!--        数据库方言可能会出现问题，具体方言查询 hibernate-release-5.4.21.Final\project\etc-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!--=================配置 hibernate 基本的信息===================-->
+        <!--        是否在控制台打印sql sql-->
+        <property name="hibernate.show_sql">true</property>
+        <!--        是否格式化 sql 语句-->
+        <property name="hibernate.format_sql">true</property>
+        <!--        指定生成数据表的策略 hibernate 会自动创建表,如果有表则更新,如果没有表则创建-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!--        session 绑定本地线程-->
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <!--        将映射文件引入到核心配置文件中-->
+        <!--        C3p0 数据库连接池配置-->
+        <property name="hibernate.c3p0.max_size">10</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="c3p0.acquire_increment">2</property>
+        <property name="hibernate.c3p0.idle_test_period">2000</property>
+        <property name="hibernate.c3p0.timeout">2000</property>
+        <property name="c3p0.max_statements">10</property>
+
+        <!--===============将映射文件引入到核心配置文件中=====================-->
         <mapping resource="com/hfm/entity/User.hbm.xml"></mapping>
         <mapping resource="com/hfm/entity/User2.hbm.xml"></mapping>
         <mapping resource="com/hfm/entity/Contact.hbm.xml"></mapping>

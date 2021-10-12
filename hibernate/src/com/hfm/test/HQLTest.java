@@ -90,6 +90,42 @@ public class HQLTest {
             session.close();
         }
     }
+
+    @Test
+    public void where2(){
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtils.getSession();
+            // 开启事务
+            transaction = session.beginTransaction();
+
+            // 创建 query 对象
+            // 使用 :参数名 给参数名命
+            Query query = session.createQuery("from Customer c where cust_id >= :id");
+
+            // 填充占位符也需要数字指定占位符的位置
+            // 参数一:参数位置
+            // 参数二:参数值
+            query.setParameter("id", 1);
+
+            // 查询所有数据
+            List<Customer> list = query.list();
+
+            for (Customer customer : list) {
+                System.out.println(customer);
+            }
+
+            // 提交事务
+            transaction.commit();
+        } catch (Exception e) {
+            // 事务回滚
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
     /**
      * 排序查询
      */
@@ -174,7 +210,7 @@ public class HQLTest {
             // 开启事务
             transaction = session.beginTransaction();
 
-            // 创建 query 对象
+            // 创建 query 对象，返回 String 对象集合
             Query query = session.createQuery("select cust_name from Customer ");
 
             // 查询所有数据
@@ -206,8 +242,40 @@ public class HQLTest {
             // 开启事务
             transaction = session.beginTransaction();
 
-            // 创建 query 对象
+            // 创建 query 对象,返回数组对象集合
             Query query = session.createQuery("select cust_name,cust_level from Customer ");
+
+            // 查询所有数据
+            List<Object[]> list = query.list();
+
+            for (Object[] objects : list) {
+                System.out.println(Arrays.toString(objects));
+            }
+
+            // 提交事务
+            transaction.commit();
+        } catch (Exception e) {
+            // 事务回滚
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+    /**
+     * 字段查询
+     */
+    @Test
+    public void getSingle3(){
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtils.getSession();
+            // 开启事务
+            transaction = session.beginTransaction();
+
+            // 一定要有对用的构造函数
+            Query query = session.createQuery("select new Customer (cust_name,cust_level) from Customer ");
 
             // 查询所有数据
             List<Object> list = query.list();
@@ -226,7 +294,6 @@ public class HQLTest {
             session.close();
         }
     }
-
     /**
      * 统计查询
      */

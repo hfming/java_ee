@@ -38,6 +38,11 @@ public class Customer {
         this.contacts = contacts;
     }
 
+    public Customer(String cust_name, String cust_level) {
+        this.cust_name = cust_name;
+        this.cust_level = cust_level;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Customer{");

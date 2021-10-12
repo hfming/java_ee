@@ -3,9 +3,13 @@ package com.hfm.test;
 import com.hfm.entity.*;
 import com.hfm.utils.HibernateUtils;
 import org.hibernate.*;
+import org.hibernate.boot.SessionFactoryBuilder;
+import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.junit.Test;
 
 import java.util.List;
@@ -29,6 +33,7 @@ public class HibernateTest {
         // 在过程中，根据映射关系，在配置数据库里面把表创建
         // Hibernate 4.0 之前
         SessionFactory sessionFactory = configuration.buildSessionFactory();
+        // Hibernate 4.X 之后新添加的对象 ServiceRegistryBuilder()
 
 //        第三步 使用SessionFactory创建session对象
         // 类似于连接 数据库
@@ -54,6 +59,9 @@ public class HibernateTest {
         sessionFactory.close();
     }
 
+    /**
+     * 工具类测试
+     */
     @Test
     public void testUtils() {
         // 使用工具类加载配置文件,创建 SessionFactory 对象
@@ -74,6 +82,9 @@ public class HibernateTest {
         session.close();
     }
 
+    /**
+     * 获取
+     */
     @Test
     public void getTest() {
         // 使用工具类加载配置文件,创建 SessionFactory 对象
@@ -81,12 +92,39 @@ public class HibernateTest {
         // 使用 SessionFactory 对象创建 session 对象
         Session session = sessionFactory.openSession();
 
-        User2 user2 = session.get(User2.class, "40281f3174a659ff0174a65a059a0000");
+        User2 user2 = session.get(User2.class, "40281f317c6de2e8017c6de2ef9f0000");
 
         System.out.println(user2);
         session.close();
     }
 
+    @Test
+    public void updateTest() {
+        Session currentSession = HibernateUtils.getCurrentSession();
+        Transaction transaction = currentSession.beginTransaction();
+        User user = currentSession.get(User.class, 1);
+        user.setAddress("中国");
+
+        currentSession.update(user);
+        transaction.commit();
+        HibernateUtils.closeSession(currentSession);
+    }
+
+    @Test
+    public void deleteTest1(){
+        Session currentSession = HibernateUtils.getCurrentSession();
+        Transaction transaction = currentSession.beginTransaction();
+        User user = currentSession.get(User.class, 1);
+        user.setAddress("中国");
+
+        currentSession.delete(user);
+        transaction.commit();
+        HibernateUtils.closeSession(currentSession);
+    }
+
+    /**
+     * saveAndUpdate
+     */
     @Test
     public void saveAndUpdate() {
         // 使用工具类加载配置文件,创建 SessionFactory 对象
@@ -107,6 +145,9 @@ public class HibernateTest {
         session.close();
     }
 
+    /**
+     * Session 一级缓存
+     */
     @Test
     public void cacheTest() {
         // 使用工具类加载配置文件,创建 SessionFactory 对象
@@ -122,6 +163,9 @@ public class HibernateTest {
         session.close();
     }
 
+    /**
+     * 缓存更新
+     */
     @Test
     public void cacheFeature() {
         // 使用工具类加载配置文件,创建 SessionFactory 对象
@@ -142,6 +186,19 @@ public class HibernateTest {
         // 对比快照区中的数据,如果不一样则提交修改
         transaction.commit();
         session.close();
+    }
+
+    /**
+     * 数据库中的数据发生变化使用 refresh方法获取最新数据
+     */
+    @Test
+    public void refreshTest() {
+        Session session = HibernateUtils.getSession();
+        User user = session.get(User.class, "2");
+        System.out.println(user);
+
+        session.refresh(user);
+        System.out.println(user);
     }
 
     /**
@@ -197,7 +254,6 @@ public class HibernateTest {
             // 出现错误,事务回滚
             transaction.rollback();
             e.printStackTrace();
-
         } finally {
 
         }
@@ -429,7 +485,7 @@ public class HibernateTest {
      * 多对多自动建表
      */
     @Test
-    public void mtm(){
+    public void mtm() {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -450,7 +506,7 @@ public class HibernateTest {
      * 多对多级联保存
      */
     @Test
-    public void caseSave(){
+    public void caseSave() {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -504,7 +560,7 @@ public class HibernateTest {
      * 多对多 自动级联删除
      */
     @Test
-    public void caseDelete(){
+    public void caseDelete() {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -532,7 +588,7 @@ public class HibernateTest {
      * 用户添加角色
      */
     @Test
-    public void addTest(){
+    public void addTest() {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -563,7 +619,7 @@ public class HibernateTest {
      * 用户添加角色
      */
     @Test
-    public void deleteTest(){
+    public void deleteTest() {
         Session session = null;
         Transaction transaction = null;
         try {
