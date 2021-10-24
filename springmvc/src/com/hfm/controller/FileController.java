@@ -6,17 +6,24 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -83,6 +90,37 @@ public class FileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 使用ResponseEntity实现下载文件的功能
+     * @param session
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/testDown")
+    public ResponseEntity<byte[]> testResponseEntity(HttpSession session) throws IOException {
+        //获取ServletContext对象
+        ServletContext servletContext = session.getServletContext();
+        //获取服务器中文件的真实路径
+        String realPath = servletContext.getRealPath("/static/img/1.jpg");
+        //创建输入流
+        InputStream is = new FileInputStream(realPath);
+        //创建字节数组
+        byte[] bytes = new byte[is.available()];
+        //将流读到字节数组中
+        is.read(bytes);
+        //创建HttpHeaders对象设置响应头信息
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        //设置要下载方式以及下载文件的名字
+        headers.add("Content-Disposition", "attachment;filename=1.jpg");
+        //设置响应状态码
+        HttpStatus statusCode = HttpStatus.OK;
+        //创建ResponseEntity对象
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(bytes, headers, statusCode);
+        //关闭输入流
+        is.close();
+        return responseEntity;
     }
 
     /**

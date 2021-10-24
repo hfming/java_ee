@@ -8,11 +8,26 @@
     <!--    <cache>标签表示当前这个mapper映射将使用二级缓存，区分的标准就看mapper的namespace值。-->
     <cache/>
 
+    <!-- 第三方缓存-->
+<!--    <cache type="org.mybatis.caches.ehcache.EhcacheCache">-->
+<!--        <property name="timeToIdleSeconds" value="3600"/>&lt;!&ndash;1 hour&ndash;&gt;-->
+<!--        <property name="timeToLiveSeconds" value="3600"/>&lt;!&ndash;1 hour&ndash;&gt;-->
+<!--        <property name="maxEntriesLocalHeap" value="1000"/>-->
+<!--        <property name="maxEntriesLocalDisk" value="10000000"/>-->
+<!--        <property name="memoryStoreEvictionPolicy" value="LRU"/>-->
+<!--    </cache>-->
+
     <!--    配置查询所有-->
     <!--    将UserDao.xml映射文件中的<select>标签中设置useCache=”true”代表当前这个statement要使用二级缓存，如果不使用二级缓存可以设置为false。 -->
     <!--    注意：针对每次查询都需要最新的数据sql，要设置成useCache=false，禁用二级缓存。 -->
     <select id="findAll" resultType="com.hfm.domain.User" useCache="true">
         select * from  mb_user
+    </select>
+
+    <!--    通过 Id 查询-->
+    <!--    parameterType 可以是 INT Integer java.lang.Integer-->
+    <select id="findById" resultType="com.hfm.domain.User" parameterType="Integer">
+        select * from mb_user where id = #{id};
     </select>
 
     <!--    配置保存用户-->
@@ -25,7 +40,7 @@
         <!-- keyColumn 数据表字段 -->
         <!-- resultType 返回值类型 -->
         <!-- order 什么时候获取id -->
-        <selectKey resultType="Integer" keyColumn="id" keyProperty="id" order="AFTER">
+        <selectKey resultType="Integer" keyColumn="id" keyProperty="id" order="BEFORE">
             select last_insert_id();
         </selectKey>
         insert into mb_user(username,address,sex,birthday) values(#{username},#{address},#{sex},#{birthday})
@@ -35,12 +50,6 @@
     <update id="update" parameterType="com.hfm.domain.User">
         update mb_user set username = #{username} ,address = #{address},sex =#{sex} ,birthday = #{birthday} where id = ${id};
     </update>
-
-    <!--    通过 Id 查询-->
-    <!--    parameterType 可以是 INT Integer java.lang.Integer-->
-    <select id="findById" resultType="com.hfm.domain.User" parameterType="Integer">
-        select * from mb_user where id = #{id};
-    </select>
 
     <!--    配置通过名称模糊查询-->
     <select id="findByName" resultType="com.hfm.domain.User" parameterType="String">
@@ -80,12 +89,12 @@
         select * from mb_user
         <where>
             <if test="ids != null and ids.size() > 0">
-                <!--                    foreach 标签用于遍历集合-->
-                <!--                    collection:代表要遍历的集合元素，注意编写时不要写#{}-->
-                <!--                    open:代表语句的开始部分-->
-                <!--                    close:代表结束部分-->
-                <!--                    item:代表遍历集合的每个元素，生成的变量名-->
-                <!--                    sperator:代表分隔符-->
+                <!--  foreach 标签用于遍历集合-->
+                <!--  collection:代表要遍历的集合元素，注意编写时不要写#{}-->
+                <!--  open:代表语句的开始部分-->
+                <!--  close:代表结束部分-->
+                <!--  item:代表遍历集合的每个元素，生成的变量名-->
+                <!--  sperator:代表分隔符-->
                 <foreach collection="ids" open="id in ( " close=")" item="uid" separator=",">
                     #{uid}
                 </foreach>

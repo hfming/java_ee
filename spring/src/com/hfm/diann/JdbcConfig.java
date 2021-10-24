@@ -1,10 +1,13 @@
 package com.hfm.diann;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
 import javax.sql.DataSource;
@@ -12,18 +15,18 @@ import javax.sql.DataSource;
 /**
  * 和spring连接数据库相关的配置类
  */
+@PropertySource("classpath:jdbc.properties") // 用于指定properties文件的位置
 public class JdbcConfig {
-
-    @Value("${jdbc.driver}")
+    @Value("${prop.driver}")
     private String driver;
 
-    @Value("${jdbc.url}")
+    @Value("${prop.url}")
     private String url;
 
-    @Value("${jdbc.username}")
+    @Value("${prop.username}")
     private String username;
 
-    @Value("${jdbc.password}")
+    @Value("${prop.password}")
     private String password;
 
     /**
@@ -44,26 +47,26 @@ public class JdbcConfig {
     @Bean(name="ds2")
     public DataSource createDataSource(){
         try {
-            ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setDriverClass(driver);
-            ds.setJdbcUrl(url);
-            ds.setUser(username);
-            ds.setPassword(password);
-            return ds;
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://47.99.213.57:3306/heima?characterEncoding=utf8&useSSL=false");
+            dataSource.setUsername("root");
+            dataSource.setPassword("tiger2018");
+            return dataSource;
         }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
 
-    @Bean(name="ds1")
+    @Bean(name="dataSource")
     public DataSource createDataSource1(){
         try {
-            ComboPooledDataSource ds = new ComboPooledDataSource();
-            ds.setDriverClass(driver);
-            ds.setJdbcUrl("jdbc:mysql://localhost:3306/eesy02");
-            ds.setUser(username);
-            ds.setPassword(password);
-            return ds;
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setDriverClassName(driver);
+            dataSource.setUrl(url);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+            return dataSource;
         }catch (Exception e){
             throw new RuntimeException(e);
         }

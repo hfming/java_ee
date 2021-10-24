@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Description 控制器类
  * @date 2020/10/5
  */
-// web 层 bean 注解，会保存到 IOC 中
+/**
+ * web 层 bean 注解，会保存到 IOC 中
+ */
 @Controller(value = "firstController")
 public class FirstController {
+    public FirstController() {
+        System.out.println("创建");
+    }
+
     /**
      * 配置映射路径(访问的url)
      *

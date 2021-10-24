@@ -49,19 +49,18 @@
     <!--   字面量类型注入-->
     <!--   配置对象的创建-->
     <bean id="book" class="com.hfm.dixml.Book">
-        <!--        使用 property 标签完成属性注入 -->
-        <!--            name 属性：类里面属性名称-->
-        <!--            value 属性：向属性注入的值-->
-        <!--        注入特殊符号的字面量-->
-        <!--        可以使用 &lt;&gt; 进行转义-->
-        <!--        <property name="bname" value="&lt;&lt;易筋经&gt;&gt;"></property>-->
-        <!--        也可以使用 XML 中的 CDATA,把带特殊符号内容写到CDATA中-->
+        <!--  使用 property 标签完成属性注入 -->
+        <!--  name 属性：类里面属性名称-->
+        <!--  value 属性：向属性注入的值-->
+        <!--  注入特殊符号的字面量，可以使用 &lt;&gt; 进行转义-->
+        <!--<property name="bname" value="&lt;&lt;易筋经&gt;&gt;"></property>-->
+        <!--  也可以使用 XML 中的 CDATA,把带特殊符号内容写到CDATA中-->
         <property name="bname">
             <value><![CDATA[<<易筋经>>]]></value>
         </property>
-        <!--       使用 null 标签注入一个 null 字面量-->
+        <!--  使用 null 标签注入一个 null 字面量-->
         <property name="id">
-            <null></null>
+            <null/>
         </property>
     </bean>
 
@@ -76,116 +75,119 @@
     <!--     外部 bean 属性对象的创建配置-->
     <bean id="bookDao" class="com.hfm.dixml.BookDaoImpl"></bean>
 
-<!--    &lt;!&ndash;    内部注入方式注入 bean 类型属性&ndash;&gt;-->
-<!--    &lt;!&ndash;    目前只配置一对多中的多,指定多所在的一即可&ndash;&gt;-->
-<!--    <bean id="employee" class="com.hfm.dixml.Employee">-->
-<!--        <property name="empId">-->
-<!--            <null></null>-->
-<!--        </property>-->
-<!--        <property name="empName" value="hfm"></property>-->
-<!--        <property name="empGender" value="男"></property>-->
-<!--        <property name="dept">-->
-<!--            &lt;!&ndash;            内部注入方式注入 bean 类型属性&ndash;&gt;-->
-<!--            &lt;!&ndash;            在内部创建 bean 标签注入 内部 bean 属性 &ndash;&gt;-->
-<!--            <bean id="dept" class="com.hfm.dixml.Dept">-->
-<!--                <property name="deptName" value="科技部"></property>-->
-<!--            </bean>-->
-<!--        </property>-->
-<!--    </bean>-->
+    <!--    内部注入方式注入 bean 类型属性-->
+    <!--    目前只配置一对多中的多,指定多所在的一即可-->
+    <bean id="employee" class="com.hfm.dixml.Employee">
+        <property name="empId">
+            <null/>
+        </property>
+        <property name="empName" value="hfm"/>
+        <property name="empGender" value="男"/>
+        <property name="dept">
+            <!--   内部注入方式注入 bean 类型属性-->
+            <!--   在内部创建 bean 标签注入 内部 bean 属性 -->
+            <bean id="dept" class="com.hfm.dixml.Dept">
+                <property name="deptName" value="科技部"/>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="dept" class="com.hfm.dixml.Dept">
         <property name="deptId">
-            <null></null>
+            <null/>
         </property>
         <property name="deptName" value="科技部"></property>
-<!--        <property name="employees" ref="employee"></property>-->
+        <!-- 一对多，一的一方维持多的一方-->
+        <!-- <property name="employees" ref="employee"></property>-->
     </bean>
 
     <!--        级联注入 bean 类型属性-->
     <bean id="employee2" class="com.hfm.dixml.Employee">
         <property name="empId">
-            <null></null>
+            <null/>
         </property>
         <property name="empName" value="hfm"></property>
         <property name="empGender" value="男"></property>
+        <!--  多对一，多的一方维持一的一方-->
         <property name="dept" ref="dept"></property>
+        <!-- 如果级联赋值与 bean 默认的都存在，级联赋值优先-->
         <property name="dept.deptName" value="人事部"></property>
     </bean>
 
-    <!--    String 数组,对象数组,String list 集合,对象 list 集合,String set 集合,对象 set 集合,String map 集合,对象 map 集合 类型属性注入-->
+    <!--String 数组,对象数组,String list 集合,对象 list 集合,String set 集合,对象 set 集合,String map 集合,对象 map 集合 类型属性注入-->
     <bean id="bookCompositeProperty" class="com.hfm.dixml.BookCompositeProperty">
-        <!--         String 数组型属性注入-->
+        <!-- String 数组型属性注入-->
         <property name="courses">
-            <!--           array 标签表示数组 -->
+            <!-- array 标签表示数组 -->
             <array>
                 <value>String 数组1</value>
                 <value>String 数组2</value>
                 <value>String 数组3</value>
             </array>
         </property>
-        <!--        对象数组型属性注入-->
+        <!-- 对象数组型属性注入-->
         <property name="books">
-            <!--            value-type 指定元素的数据类型-->
+            <!-- value-type 指定元素的数据类型-->
             <array value-type="com.hfm.dixml.Book">
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
             </array>
         </property>
-        <!--        String list 集合-->
+        <!-- String list 集合-->
         <property name="strings">
-            <!--            list 表示集合-->
+            <!-- list 表示集合-->
             <list>
                 <value>String list 集合1</value>
                 <value>String list 集合2</value>
                 <value>String list 集合3</value>
             </list>
         </property>
-        <!--        对象集合-->
+        <!-- 对象集合-->
         <property name="bookList">
-            <!--           value-type 指定元素的数据类型 -->
+            <!-- value-type 指定元素的数据类型 -->
             <list value-type="com.hfm.dixml.Book">
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
             </list>
         </property>
-        <!--        String set 集合-->
+        <!-- String set 集合-->
         <property name="sets">
-            <!--            set 标签表示Set 集合-->
+            <!-- set 标签表示Set 集合-->
             <set>
                 <value>String set 集合1</value>
                 <value>String set 集合2</value>
                 <value>String set 集合3</value>
             </set>
         </property>
-        <!--        对象 Set 集合-->
+        <!-- 对象 Set 集合-->
         <property name="bookSet">
             <set value-type="com.hfm.dixml.Book">
-                <!--                不能存储重复元素-->
+                <!-- 不能存储重复元素-->
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
                 <ref bean="book"></ref>
             </set>
         </property>
-        <!--        String map 集合属性-->
+        <!-- String map 集合属性-->
         <property name="maps">
-            <!--            map 标签表示 Map 集合-->
-            <!--            value-type 表示键值对中值的数据类型-->
+            <!--   map 标签表示 Map 集合-->
+            <!--   value-type 表示键值对中值的数据类型-->
             <map value-type="java.lang.String">
-                <!--                entry 标签表示 map 元素-->
-                <!--                value 表示值-->
+                <!--   entry 标签表示 map 元素-->
+                <!--   value 表示值-->
                 <entry key="1" value="String Map 集合1"></entry>
                 <entry key="2" value="String Map 集合2"></entry>
                 <entry key="3" value="String Map 集合3"></entry>
             </map>
         </property>
-        <!--        对象 Map 集合-->
+        <!--    对象 Map 集合-->
         <property name="bookMap">
-            <!--            value-type 表示键值对中值的数据类型-->
-            <!--            key-type 表示键值对中键的数据类型-->
+            <!--  value-type 表示键值对中值的数据类型-->
+            <!--  key-type 表示键值对中键的数据类型-->
             <map key-type="java.lang.String" value-type="com.hfm.dixml.Book">
-                <!--                value-ref 指定外部的 bean 创建 值-->
+                <!--  value-ref 指定外部的 bean 创建 值-->
                 <entry key="1" value-ref="book"></entry>
                 <entry key="2" value-ref="book"></entry>
                 <entry key="3" value-ref="book"></entry>

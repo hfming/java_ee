@@ -79,7 +79,6 @@ public class XMLConfigBuilder {
                 //判断mapperElement使用的是哪个属性
                 Attribute attribute = mapperElement.attribute("resource");
                 if (attribute != null) {
-                    System.out.println("使用的是XML");
                     //表示有resource属性，用的是XML
                     //取出属性的值
                     String mapperPath = attribute.getValue();//获取属性的值"com/itheima/dao/IUserDao.xml"
@@ -88,7 +87,6 @@ public class XMLConfigBuilder {
                     //给MyConfiguration中的mappers赋值
                     cfg.setMappers(mappers);
                 } else {
-                    System.out.println("使用的是注解");
                     //表示没有resource属性，用的是注解
                     //获取class属性的值
                     String daoClassPath = mapperElement.attributeValue("class");

@@ -23,13 +23,13 @@ public class DepartmentDaoImpl extends BaseDao<Department> implements Department
 
     @Override
     public Department findById(Integer id) {
-        String hql = "from Department where id = ? ";
+        String hql = "from Department where id = ?1 ";
         return querySingle(getCurrentSession(), hql, id);
     }
 
     @Override
     public Department findByName(String name) {
-        String hql = "from Department where departmentName = ? ";
+        String hql = "from Department where departmentName = ?1 ";
         return querySingle(getCurrentSession(), hql, name);
     }
 }

@@ -7,6 +7,9 @@ package com.hfm.dixml;
  * @date 2020/10/1
  */
 public class BookServerImpl implements BookServer {
+    /**
+     * 在 Server 中用到了 dao
+     */
     private BookDao bookDao;
 
     @Override

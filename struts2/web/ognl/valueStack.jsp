@@ -11,7 +11,7 @@
     <s:property value="user.password"/><hr/>
 
     获取值栈中的 list 集合方式一:
-<%--    <s:property value="users.size()"/>&nbsp;--%>
+    <%--    <s:property value="users.size()"/>&nbsp;--%>
     <s:property value="users[0].name"/>&nbsp;
     <s:property value="users[0].password"/><br/>
     <br/>

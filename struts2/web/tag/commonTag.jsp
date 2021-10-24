@@ -45,7 +45,7 @@
 
     s:push push 标签将把一个对象压入 ValueStack 而不是压入 ContextMap。
     push 标签在标签起始时把一个对象压入栈, 标签结束时将对象弹出栈。
-    <s:push value="String"></s:push><br/>
+<%--    <s:push value="String"></s:push><br/>--%>
 
     s:if s:else s:elseif 标签 类似于 JSTL 的 c:choose c:when c:otherwise
 <%--    可以直接使用值栈中的属性--%>

@@ -15,36 +15,37 @@
         <!--  		2. 若 JPA 项目中只有一个 JPA 的实现产品, 则也可以不配置该节点. -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>com.hfm.domain.Customer</class>
+        <!-- 没有使用 Spring IOC 需要配置实体类-->
+<!--        <class>com.hfm.domain.Customer</class>-->
 
         <properties>
             <!--    数据库信息-->
-            <!--            用户名：javax.persistence.jdbc.user-->
-            <!--            密码：javax.persistence.jdbc.password-->
-            <!--            数据库驱动：javax.persistence.jdbc.driver-->
-            <!--            URL：javax.persistence.jdbc.url-->
+            <!--    用户名：javax.persistence.jdbc.user-->
+            <!--    密码：javax.persistence.jdbc.password-->
+            <!--    数据库驱动：javax.persistence.jdbc.driver-->
+            <!--    URL：javax.persistence.jdbc.url-->
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://47.99.213.57:3306/jpa?autoReconnect=true&amp;useSSL=false&amp;characterEncoding=utf-8"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="tiger2018"/>
 
-            <!--    可选配置，配置jpa 实现方的信息-->
+            <!--   可选配置，配置jpa 实现方的信息-->
             <!-- jpa提供者的可选配置：我们的JPA规范的提供者为hibernate，所以jpa的核心配置中兼容hibernate的配 -->
-            <!--        输出底层 sql-->
+            <!--   输出底层 sql-->
             <property name="hibernate.show_sql" value="true"/>
-            <!--        输出底层 sql 语句格式-->
+            <!--   输出底层 sql 语句格式-->
             <property name="hibernate.format_sql" value="true"/>
-            <!--        hibernate 会自动创建表,如果有表则更新,如果没有表则创建-->
-            <!--            create : 程序运行时创建数据库表(如果有表，先删除表在创建)-->
-            <!--            update :程序运行时创建表（如果有表不会创建表）-->
-            <!--            none :不会创建表-->
+            <!--   hibernate 会自动创建表,如果有表则更新,如果没有表则创建-->
+            <!--      create : 程序运行时创建数据库表(如果有表，先删除表在创建)-->
+            <!--      update :程序运行时创建表（如果有表不会创建表）-->
+            <!--      none :不会创建表-->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <!--        配置数据库方言,mysql 分页使用 limit, oracle 分页使用 rownum 关键字,让hibernate 自己识别数据库方言-->
-            <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+            <!--      配置数据库方言,mysql 分页使用 limit, oracle 分页使用 rownum 关键字,让hibernate 自己识别数据库方言-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 
-            <!--        session 绑定本地线程-->
-            <!--            <property name="hibernate.current_session_context_class" value="thread"/>-->
+            <!--   session 绑定本地线程-->
+            <property name="hibernate.current_session_context_class" value="thread"/>
         </properties>
     </persistence-unit>
 </persistence>

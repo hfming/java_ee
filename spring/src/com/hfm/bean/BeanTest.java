@@ -83,8 +83,9 @@ public class BeanTest {
 
         LifeBean lifeBean = context.getBean("lifeBean", LifeBean.class);
         System.out.println("4 创建 bean 对象");
-        System.out.println(lifeBean.toString());
+        System.out.println(lifeBean);
 
+        // 手动销毁
         context.close();
     }
 
@@ -95,9 +96,9 @@ public class BeanTest {
     public void beanPostProcessorTest(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beanDetial.xml");
 
-        MyBeanPostProcessor myBeanPostProcessor = context.getBean("myBeanPostProcessor", MyBeanPostProcessor.class);
+        LifeBean lifeBean  = context.getBean("lifeBean", LifeBean.class);
         System.out.println("6 创建 bean 对象");
-        System.out.println(myBeanPostProcessor.toString());
+        System.out.println(lifeBean);
 
         context.close();
     }

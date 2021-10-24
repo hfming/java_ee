@@ -19,6 +19,7 @@ public class MyTypeFilter implements TypeFilter {
     /**
      * MetadataReader 读取到当前扫描的类信息
      * MetadataReaderFactory 获取到其他任何类信息
+     * 可以根据各种条件进行判断，返回 true 就进行扫描生成 Bean
      * @param metadataReader
      * @param metadataReaderFactory
      * @return
@@ -36,6 +37,7 @@ public class MyTypeFilter implements TypeFilter {
         Resource resource = metadataReader.getResource();
 
         String superClassName = classMetadata.getSuperClassName();
+        System.out.println("扫描："+superClassName);
 
         // 如果父类名为 Object 则进行扫描
         if (superClassName.equalsIgnoreCase("Object")) {

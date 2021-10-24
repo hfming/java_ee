@@ -8,6 +8,6 @@ package com.hfm.bean;
  */
 public class MyBean {
     public MyBean() {
-//        System.out.println("默认无参构造函数创建 bean 对象!");
+        System.out.println("默认无参构造函数创建 bean 对象!");
     }
 }

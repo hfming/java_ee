@@ -1,7 +1,5 @@
 package com.hfm.dixml;
 
-import java.util.Objects;
-
 /**
  * @author hfming2016@163.com
  * @version 1.01 2020-09-27 16:01
@@ -16,24 +14,6 @@ public class DIBookByP {
     private String bname;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DIBookByP book = (DIBookByP) o;
-        return Objects.equals(id, book.id) &&
-                Objects.equals(bname, book.bname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, bname);
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Book{");
         sb.append("id=").append(id);
@@ -42,6 +22,10 @@ public class DIBookByP {
         return sb.toString();
     }
 
+    /**
+     * set 方法必须要有
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }

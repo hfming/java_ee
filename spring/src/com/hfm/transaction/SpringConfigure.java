@@ -29,7 +29,7 @@ public class SpringConfigure {
     public DruidDataSource getDruidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://47.99.213.57:3306/heima?characterEncoding=utf8&amp;useSSL=false");
+        dataSource.setUrl("jdbc:mysql://47.99.213.57:3306/heima?characterEncoding=utf8&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("tiger2018");
         return dataSource;
@@ -57,10 +57,8 @@ public class SpringConfigure {
      * @return
      */
     @Bean
-    public DataSourceTransactionManager
-    getDataSourceTransactionManager(DataSource dataSource) {
-        DataSourceTransactionManager transactionManager = new
-                DataSourceTransactionManager();
+    public DataSourceTransactionManager getDataSourceTransactionManager(DataSource dataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(dataSource);
         return transactionManager;
     }

@@ -77,6 +77,7 @@ public class EmployeeDaoTest {
     /**
      * selectOne 方法
      */
+    @Test
     public void selectOneTest() {
         // 通过构建查询条件对象进行查询
         QueryWrapper<Employee> queryWrapper = new QueryWrapper<>();

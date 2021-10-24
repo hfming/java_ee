@@ -77,7 +77,13 @@ public class JPATest {
             transaction.rollback();
         } finally {
             // 关闭资源
-            entityManager.close();
+            try {
+                if (entityManager != null) {
+                    entityManager.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

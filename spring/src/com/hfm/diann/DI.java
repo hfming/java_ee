@@ -42,8 +42,8 @@ public class DI {
 
     /**
      * @Resource 既可以根据类型注入, 也可以根据名称注入
-     * 不配置 value 属性则根据类型注入
-     * 配置 value 属性则根据类型注入
+     * 不配置 name 属性则根据类型注入
+     * 配置 name 属性则根据类型注入
      */
     @Resource(name = "employeeDaoImpl2")
     private EmployeeDao employeeDao2;

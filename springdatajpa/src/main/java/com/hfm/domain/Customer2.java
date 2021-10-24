@@ -60,23 +60,18 @@ public class Customer2 {
      * @JoinColumn 配置外键
      * name 属性配置外键名
      * referencedColumnName 属性主表的主键字段名称
-     */
-//    @OneToMany(targetEntity = LinkMan2.class) // 配置实体类之间的关系
-//    @JoinColumn(name = "lkm_cust_id",referencedColumnName = "cust_id") // 声明外键
-
-    /**
      * cascade:配置级联操作
      * 		CascadeType.MERGE	级联更新
      * 		CascadeType.PERSIST	级联保存：
      * 		CascadeType.REFRESH 级联刷新：
      * 		CascadeType.REMOVE	级联删除：
      * 		CascadeType.ALL		包含所有
-     */
-    /**
      * 在客户对象的@OneToMany注解中添加fetch属性
      * FetchType.EAGER	：立即加载
      * FetchType.LAZY	：延迟加载
      */
+    //    @OneToMany(targetEntity = LinkMan2.class) // 配置实体类之间的关系
+    //    @JoinColumn(name = "lkm_cust_id",referencedColumnName = "cust_id") // 声明外键
     @OneToMany(mappedBy = "customer2", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 放弃外键的维护权 mappedBy 属性指定维护外键的对象
     private Set<LinkMan2> linkMan2 = new HashSet<>();
 

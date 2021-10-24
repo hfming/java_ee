@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     public void test(){
-        // ServiceImpl 已经注入 Maper对象，可以直接使用CRUD 方法
+        // ServiceImpl 已经注入 Mapper对象，可以直接使用CRUD 方法
         save(new User());
     }
 }

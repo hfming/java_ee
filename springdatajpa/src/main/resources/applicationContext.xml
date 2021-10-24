@@ -37,33 +37,35 @@
     <!--   2. 创建 EntityManangerfactory 对象交给 spring 容器管理-->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-        <!--        会扫描配置了 jpa 注解的类(实体类)-->
+        <!--   会扫描配置了 jpa 注解的类(实体类)-->
         <property name="packagesToScan" value="com.hfm.domain"></property>
-        <!--        配置jpa 的实现方式-->
+        <!--   配置jpa 的实现方式-->
         <property name="persistenceProvider">
             <bean class="org.hibernate.jpa.HibernatePersistenceProvider">
             </bean>
         </property>
-        <!--        jpa 供应商适配器-->
+        <!--  jpa 供应商适配器-->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <!--                配置是否自动创建表-->
+                <!--  配置是否自动创建表-->
                 <property name="generateDdl" value="true"/>
-                <!--                指定数据库类型-->
+                <!--  指定数据库类型-->
                 <property name="database" value="MYSQL"/>
-                <!--                配置数据库方言-->
+                <!--  配置数据库方言-->
                 <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
-                <!--                配置是否显示sql-->
+                <!--  配置是否显示sql-->
                 <property name="showSql" value="true"/>
             </bean>
         </property>
-        <!--        配置 jpa 方言-->
+        <!--   配置 jpa 方言-->
         <property name="jpaDialect">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
         </property>
 
-        <!--        注入 jpa 配置信息-->
-        <!--        jpa 的基本配置信息与 jpa 实现方式的配置信息-->
+        <!--   注入 jpa 配置信息-->
+        <!--   jpa 的基本配置信息与 jpa 实现方式的配置信息-->
+        <!-- update 有表不会创建，没有表会创建-->
+        <!-- create 每次都会创建-->
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>

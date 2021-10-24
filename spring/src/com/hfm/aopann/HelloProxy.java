@@ -9,12 +9,6 @@ import org.springframework.stereotype.Component;
  * @author hfming2016@163.com
  * @version 1.01 2020-09-29 15:39
  * @Description 代理类对象
- * 被代理类中定义 通知（增强）
- * 前置通知
- * 后置通知
- * 环绕通知
- * 异常通知
- * 最终通知
  * @date 2020/9/29
  */
 @Component(value = "helloProxy")
@@ -28,7 +22,7 @@ public class HelloProxy {
      */
     @Before(value = "execution(* com.hfm.aopann.HelloImpl.say(..))")
     public void before() {
-        System.out.println("前置通知");
+        System.out.println("Before 前置通知");
     }
 
     /**
@@ -38,7 +32,7 @@ public class HelloProxy {
      */
     @AfterReturning(value = "execution(* com.hfm.aopann.HelloImpl.say(..))")
     public void afterReturning() {
-        System.out.println("后置通知");
+        System.out.println("AfterRunning 后置通知");
     }
 
     /**
@@ -48,7 +42,7 @@ public class HelloProxy {
      */
     @After(value = "execution(* com.hfm.aopann.HelloImpl.say(..))")
     public void after() {
-        System.out.println("后置通知");
+        System.out.println("After 后置通知");
     }
 
     /**
@@ -58,7 +52,7 @@ public class HelloProxy {
      */
     @AfterThrowing(value = "execution(* com.hfm.aopann.HelloImpl.say(..))")
     public void afterThrowing() {
-        System.out.println("异常通知 ");
+        System.out.println("AfterThrowing 异常通知 ");
     }
 
     /**

@@ -62,7 +62,6 @@ public class ProductAction extends ActionSupport implements RequestAware, Parame
      * @return
      */
     public String testTag(){
-
         return SUCCESS;
     }
 }

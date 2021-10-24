@@ -17,24 +17,6 @@ public class DIBookBySet {
     private String bname;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DIBookBySet book = (DIBookBySet) o;
-        return Objects.equals(id, book.id) &&
-                Objects.equals(bname, book.bname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, bname);
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Book{");
         sb.append("id=").append(id);

@@ -19,29 +19,29 @@ public class AddressTypeHandler extends BaseTypeHandler<Address> {
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Address parameter, JdbcType jdbcType) throws SQLException {
         // 调用 toString 方法获取拼好的字符串
-        ps.setString(i, parameter.toString());
+//        ps.setString(i, parameter.toString());
 
-//        // 数据验证，判断是否为 null
-//        if (parameter == null) {
-//            return;
-//        }
-//
-//        // 将各个属性数据取出
-//        String province = parameter.getProvince();
-//        String city = parameter.getCity();
-//
-//        // 拼装成字符串，各个值之间使用 符号 隔开
-//        StringBuilder builder = new StringBuilder();
-//        if(province != null && province.length() > 0){
-//            builder.append(province);
-//        }
-//        if(city != null && city.length() > 0){
-//            builder.append("/").append(city);
-//        }
-//        String string = builder.toString();
-//
-//        // 设置参数
-//        ps.setString(i,string);
+        // 数据验证，判断是否为 null
+        if (parameter == null) {
+            return;
+        }
+
+        // 将各个属性数据取出
+        String province = parameter.getProvince();
+        String city = parameter.getCity();
+
+        // 拼装成字符串，各个值之间使用 符号 隔开
+        StringBuilder builder = new StringBuilder();
+        if(province != null && province.length() > 0){
+            builder.append(province);
+        }
+        if(city != null && city.length() > 0){
+            builder.append("/").append(city);
+        }
+        String string = builder.toString();
+
+        // 设置参数
+        ps.setString(i,string);
     }
 
     /**

@@ -51,7 +51,7 @@ public class ResponseController {
     public void voidTest1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("响应数据类型为 void 无返回值 请求转发");
 
-        // 请求转化
+        // 请求转发
         request.getRequestDispatcher("/response/stringTest").forward(request, response);
     }
 
@@ -147,6 +147,7 @@ public class ResponseController {
      * @param user
      */
     @RequestMapping(path = "jsonToObject")
+    // @ResponseBody
     public @ResponseBody User jsonToObject(@RequestBody User  user) {
         System.out.println(user);
 

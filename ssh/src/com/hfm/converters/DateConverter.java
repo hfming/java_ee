@@ -32,7 +32,7 @@ public class DateConverter extends StrutsTypeConverter {
 			if(values != null && values.length > 0){
 				String value = values[0];
 				try {
-					return getDateFormat().parseObject(value);
+					return getDateFormat().parse(value);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}

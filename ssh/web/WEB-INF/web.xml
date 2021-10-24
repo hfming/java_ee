@@ -9,7 +9,7 @@
         <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
-    <!--    注册监听器-->
+    <!--    注册 IOC 监听器 web 工程启动时创建 IOC 容器-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

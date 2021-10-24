@@ -22,19 +22,19 @@ public class EmployeeServerImpl implements EmployeeServer {
     private EmployeeDao employeeDao;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED ,readOnly = true)
     public Employee findEmployeeById(Integer id) {
         return employeeDao.findEmployeeById(id);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public Employee findEmployeeByName(String name) {
         return employeeDao.findEmployeeByName(name);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public List<Employee> findAll() {
         return employeeDao.findAll();
     }
@@ -58,9 +58,8 @@ public class EmployeeServerImpl implements EmployeeServer {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
     public boolean nameExited(String name) {
         return employeeDao.nameExisted(name);
     }
-
 }

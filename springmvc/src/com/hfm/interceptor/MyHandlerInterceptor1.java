@@ -22,7 +22,7 @@ public class MyHandlerInterceptor1 implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("拦截器1 preHandle方法执行了...");
-        return true;
+        return false;
     }
 
     @Override

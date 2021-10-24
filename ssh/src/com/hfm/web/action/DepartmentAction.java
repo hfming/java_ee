@@ -40,6 +40,7 @@ public class DepartmentAction extends ActionSupport implements ModelDriven<Depar
      */
     public String findAll() {
         List<Department> departments = departmentServer.findAll();
+        System.out.println(departments);
 
         // 将数据存储到 request 域中
         ServletActionContext.getRequest().setAttribute("departments", departments);

@@ -9,10 +9,12 @@ import com.hfm.uncoupled.factory.service.IAccountService;
  */
 public class AccountServiceImpl implements IAccountService {
     //    private IAccountDao accountDao = new AccountDaoImpl();
-    private IAccountDao accountDao = (IAccountDao) BeanFactory.getBean("accountDao");
-    //    private int i = 1;
+    private IAccountDao accountDao;
+
     @Override
     public void saveAccount() {
+        accountDao = (IAccountDao) BeanFactory.getBean("accountDao");
+
         int i = 1;
         accountDao.saveAccount();
         System.out.println(i);

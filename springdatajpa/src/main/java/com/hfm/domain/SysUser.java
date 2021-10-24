@@ -38,7 +38,7 @@ public class SysUser {
     /**
      * 多对多的关系
      */
-    @ManyToMany(targetEntity = SysRole.class) // 设置关联的实体
+    @ManyToMany(targetEntity = SysRole.class,fetch = FetchType.LAZY) // 设置关联的实体
     @JoinTable(
             // name 属性设置第三张表的名称
             name = "sys_user_role",

@@ -2,7 +2,8 @@ package com.hfm.bean;
 
 import com.hfm.config.FirstConfigure;
 import com.hfm.config.SpringConfigure;
-import com.hfm.domain.MyBean;
+import com.hfm.config.SpringConfigure2;
+import com.hfm.aware.Bean;
 import com.hfm.domain.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +27,30 @@ public class BeanTest {
 
         Person person = context.getBean("person", Person.class);
         System.out.println(person);
+
+        String[] beanNamesForType = context.getBeanNamesForType(Person.class);
+
+        for (String s : beanNamesForType) {
+            System.out.println(s);
+        }
     }
 
     @Test
     public void beanTest(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(FirstConfigure.class);
 
-        MyBean myBean = context.getBean("myBean", MyBean.class);
+        Bean myBean = context.getBean("bean", Bean.class);
 
         context.close();
+    }
+    @Test
+    public void beanTest3(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfigure2.class);
+
+        String[] beanNamesForType = context.getBeanNamesForType(Person.class);
+
+        for (String s : beanNamesForType) {
+            System.out.println(s);
+        }
     }
 }

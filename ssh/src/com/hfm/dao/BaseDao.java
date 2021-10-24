@@ -21,13 +21,8 @@ public abstract class BaseDao<T> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    /**
-     * 获取当前线程绑定的 session
-     *
-     * @return
-     */
-    public Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+    public  Session getCurrentSession(){
+        return this.sessionFactory.getCurrentSession();
     }
 
     private Class<T> clazz = null;
@@ -52,13 +47,20 @@ public abstract class BaseDao<T> {
         clazz = (Class<T>) actualTypeArgument;
     }
 
-    private Query<T> gettQuery(Session session, String hql, Object[] args) {
+    /**
+     * 获取 Query 对象
+     * @param session
+     * @param hql
+     * @param args
+     * @return
+     */
+    private Query<T> getQuery(Session session, String hql, Object[] args) {
         Query<T> query = session.createQuery(hql, clazz);
 
         // 参数设置
         if (args != null && args.length != 0) {
             for (int i = 0; i < args.length; i++) {
-                query.setParameter(i, args[i]);
+                query.setParameter(i+1, args[i]);
             }
         }
         return query;
@@ -73,9 +75,16 @@ public abstract class BaseDao<T> {
      * @return
      */
     public T querySingle(Session session, String hql, Object... args) {
-        Query<T> query = gettQuery(session, hql, args);
+        Query<T> query = getQuery(session, hql, args);
+        List<T> list = query.list();
 
-        return query.list().get(0);
+        if (list.size()>0) {
+            T t = list.get(0);
+            if (t != null) {
+                return t;
+            }
+        }
+        return null;
     }
 
     /**
@@ -87,10 +96,13 @@ public abstract class BaseDao<T> {
      * @return
      */
     public List<T> queryList(Session session, String hql, Object... args) {
-        Query<T> query = gettQuery(session, hql, args);
+        Query<T> query = getQuery(session, hql, args);
 
         List<T> list = query.list();
-        return list;
+        if (list != null) {
+            return list;
+        }
+        return null;
     }
 
     /**

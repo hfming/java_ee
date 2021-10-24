@@ -5,16 +5,16 @@
 <struts>
     <!-- 常量值配置 -->
     <!-- 配置字符编码-->
-    <constant name="struts.i18n.encoding" value="utf-8"></constant>
+    <constant name="struts.i18n.encoding" value="utf-8"/>
 
     <!-- 配置 Struts2 可以接收的请求扩展名-->
-    <constant name="struts.action.extension" value="action,do"></constant>
+    <constant name="struts.action.extension" value="action,do"/>
 
     <!-- 允许动态方法调用 -->
-    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
 
     <!-- 允许调用静态方法-->
-    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
 
     <!--     Struts2 初始案例 -->
     <!--     一个模块对应一个包 -->
@@ -34,7 +34,7 @@
         </interceptors>
 
         <!-- 使用新的拦截器栈 -->
-        <default-interceptor-ref name="sshStack"></default-interceptor-ref>
+        <default-interceptor-ref name="sshStack"/>
 
         <!--        Spring 整合 Struts2 时, 在 Struts2 中配置的 Spring 的 Action 的 class 需要指向 IOC 容器中该 bean 的 id-->
         <action name="employee_findAll" class="employeeAction" method="findAll">
@@ -42,26 +42,34 @@
         </action>
         <!--        删除员工-->
         <action name="employee_delete" class="employeeAction" method="delete">
-            <result name="delete"></result>
+            <!-- 删除成功之后重定向-->
+            <result name="delete" type="redirectAction">employee_findAll</result>
         </action>
-        <!--        修改员工-->
+        <!--  修改员工-->
         <action name="employee_update" class="employeeAction" method="update">
-            <!--            跳转到其他 action 中-->
+            <!--   跳转到其他 action 中-->
             <result name="update" type="redirectAction">department_findAll</result>
         </action>
-        <!--        添加员工-->
+        <!--   添加员工-->
         <action name="employee_add" class="employeeAction" method="add">
             <result name="add" type="redirectAction">employee_findAll</result>
         </action>
-        <!--        员工名是否可用-->
+        <!--   员工名是否可用-->
         <action name="employee_nameExited" class="employeeAction" method="nameExited">
-
+            <result type="stream" name="nameExited">
+                <param name="contentType">text/html</param>
+                <param name="inputStream">inputStream</param>
+            </result>
+        </action>
+        <action name="employee_find" class="employeeAction" method="findById">
+            <result name="findById">/jsp/emp-input.jsp</result>
         </action>
     </package>
 
     <package name="department" namespace="/" extends="struts-default">
         <!--        查询所有部门-->
-        <action name="department_findAll*" class="departmentAction" method="findAll">
+        <action name="department_findAll" class="departmentAction" method="findAll">
+            <!-- 默认转发 同一个 Request -->
             <result name="findAll">/jsp/emp-input.jsp</result>
         </action>
     </package>

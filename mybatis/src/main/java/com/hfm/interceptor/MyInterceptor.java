@@ -5,6 +5,7 @@ import org.apache.ibatis.plugin.*;
 
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.function.BiConsumer;
 
 /**
  * @author hfming2016@163.com
@@ -14,7 +15,7 @@ import java.util.Properties;
  */
 @Intercepts({
         @Signature(type = StatementHandler.class, method = "parameterize", args = Statement.class)
-})// 通过注解配置拦截的对象及方法等参数
+})// 插件签命：通过注解配置拦截的对象及方法等参数
 public class MyInterceptor implements Interceptor {
     /**
      * 拦截目标方法执行
@@ -31,6 +32,7 @@ public class MyInterceptor implements Interceptor {
     }
 
     /**
+     * 包装目标对象，创建代理对象
      * 生成动态代理对象，可以使用MyBatis提供的Plugin类的wrap方法
      *
      * @param target
@@ -44,13 +46,12 @@ public class MyInterceptor implements Interceptor {
     }
 
     /**
-     * 注入插件配置时设置的属性
+     * 注入插件配置时设置的属性即 核心配置文件中的 property属性值
      *
      * @param properties
      */
     @Override
     public void setProperties(Properties properties) {
-
-
+        System.out.println(properties);
     }
 }

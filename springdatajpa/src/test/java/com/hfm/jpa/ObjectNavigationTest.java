@@ -35,7 +35,7 @@ public class ObjectNavigationTest {
     @Test
     @Transactional // 由于是在java代码中测试，为了解决no session问题，将操作配置到同一个事务中
     public void objectTest() {
-        Customer2 customer = customer2Dao.findOne(1L);
+        Customer2 customer = customer2Dao.findOne(5L);
         Set<LinkMan2> linkMans = customer.getLinkMan2();//对象导航查询
         for (LinkMan2 linkMan : linkMans) {
             System.out.println(linkMan);

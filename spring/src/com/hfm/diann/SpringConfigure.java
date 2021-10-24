@@ -2,6 +2,8 @@ package com.hfm.diann;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author hfming2016@163.com
@@ -11,5 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @Configurable // 作为配置类,替代 xml 配置文件
 @ComponentScan(basePackages = {"com.hfm.diann"}) // 配置组件扫描的路径
+@Import(value = {JdbcConfig.class})// 导入其他配置类
 public class SpringConfigure {
 }

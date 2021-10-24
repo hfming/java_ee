@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 名称空间-->
+<mapper namespace="com.hfm.dao.UserFirstDao">
+    <!--    配置查询所有，已经使用 @Select 注解不能再有对应的 select -->
+<!--    <select id="findAll" resultType="com.hfm.domain.UserFirst">-->
+<!--        select *-->
+<!--        from mb_user-->
+<!--    </select>-->
+
+    <!--    通过 Id 查询-->
+    <!--    parameterType 可以是 INT Integer java.lang.Integer-->
+    <select id="findById" resultType="com.hfm.domain.UserFirst" parameterType="Integer">
+        select *
+        from mb_user
+        where id = #{id};
+    </select>
+</mapper>

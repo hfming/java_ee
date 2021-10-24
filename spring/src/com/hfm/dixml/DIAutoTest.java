@@ -16,7 +16,7 @@ public class DIAutoTest {
      */
     @Test
     public void byNameTest() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("myspring.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("diXml.xml");
 
         Employee emp = context.getBean("emp", Employee.class);
         System.out.println(emp);
@@ -28,7 +28,7 @@ public class DIAutoTest {
      */
     @Test
     public void byTypeTest() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("myspring.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("diXml.xml");
 
         Employee emp = context.getBean("emp", Employee.class);
         System.out.println(emp);

@@ -97,17 +97,17 @@ public class AnnotationController {
         return SUCCESS;
     }
 
-//    /**
-//     * @ModelAttribute 注解方法有返回值
-//     * @ModelAttribute 注解方法表示当前方法会在控制器的方法执行之前，先执行。
-//     */
-//    @ModelAttribute
-//    public User modelAttribute() {
-//        System.out.println("当前方法会在控制器的方法执行之前，先执行。1");
-//        User hfm = new User(1, "hfm", "17111711");
-//        System.out.println(hfm);
-//        return hfm;
-//    }
+    /**
+     * @ModelAttribute 注解方法有返回值
+     * @ModelAttribute 注解方法表示当前方法会在控制器的方法执行之前，先执行。
+     */
+    @ModelAttribute
+    public User modelAttribute() {
+        System.out.println("当前方法会在控制器的方法执行之前，先执行。1");
+        User hfm = new User(1, "hfm", "17111711");
+        System.out.println(hfm);
+        return hfm;
+    }
 
     /**
      * @param user
@@ -121,17 +121,17 @@ public class AnnotationController {
         return SUCCESS;
     }
 
-//    /**
-//     * @param map
-//     * @ModelAttribute 注解方法没有返回值, 需要与 @ModelAttribute 注解注解属性一起使用
-//     */
-//    @ModelAttribute
-//    public void modelAttribute(Map<String, User> map) {
-//        System.out.println("当前方法会在控制器的方法执行之前，先执行。2");
-//        User hfm = new User(1, "hfm", "17111711");
-//        System.out.println(hfm);
-//        map.put("user", hfm);
-//    }
+    /**
+     * @param map
+     * @ModelAttribute 注解方法没有返回值, 需要与 @ModelAttribute 注解注解属性一起使用
+     */
+    @ModelAttribute
+    public void modelAttribute(Map<String, User> map) {
+        System.out.println("当前方法会在控制器的方法执行之前，先执行。2");
+        User hfm = new User(1, "hfm", "17111711");
+        System.out.println(hfm);
+        map.put("user", hfm);
+    }
 
     /**
      * 向session中存入值

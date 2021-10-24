@@ -48,7 +48,6 @@ public class DITypeOfPropertyTest {
         //2 获取配置创建的对象
         BookServer bookServer = context.getBean("bookServer", BookServer.class);
         Book book = context.getBean("book", Book.class);
-
         bookServer.addBook(book);
     }
 
@@ -67,6 +66,17 @@ public class DITypeOfPropertyTest {
         System.out.println(employee.getDept());
     }
 
+    /**
+     * 级联注入
+     */
+    @Test
+    public void cascadeTest(){
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("diXml.xml");
+        Employee employe2 = context.getBean("employee2", Employee.class);
+
+        System.out.println(employe2);
+        System.out.println(employe2.getDept());
+    }
     /**
      * 复合数据类型属性注入
      * String 数组,对象数组,String list 集合,对象 list 集合,String set 集合,对象 set 集合,String map 集合,对象 map 集合 类型属性注入

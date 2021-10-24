@@ -1,8 +1,8 @@
 package com.hfm.test;
 
-import com.hfm.dao.UserDao;
-import com.hfm.dao.impl.UserDaoImpl;
-import com.hfm.domain.User;
+import com.hfm.dao.CRUDUserDao;
+import com.hfm.domain.CRUDUser;
+import com.hfm.domain.condition.CRUDUserCondition;
 import com.hfm.domain.condition.UserCondition;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -25,15 +25,12 @@ import java.util.List;
 public class DynamicQueryTest {
     private SqlSessionFactory sqlSessionFactory;
 
-    private UserDao userDao;
-
     @Before
     public void init() throws IOException {
         // 1.读取配置文件
         InputStream resourceAsStream = Resources.getResourceAsStream("SqlMapConfig");
         // 通过 SqlSessionFactoryBuilder 创建 SqlSessionFactory 对象
         this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        userDao = new UserDaoImpl(sqlSessionFactory);
     }
 
     /**
@@ -42,14 +39,14 @@ public class DynamicQueryTest {
     @Test
     public void ifTest() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserDao mapper = sqlSession.getMapper(UserDao.class);
+        CRUDUserDao mapper = sqlSession.getMapper(CRUDUserDao.class);
 
-        User user = new User();
+        CRUDUser user = new CRUDUser();
         user.setAddress("%浙江%");
 
-        List<User> users = mapper.findByUser(user);
+        List<CRUDUser> users = mapper.findByUser(user);
 
-        for (User myUser : users) {
+        for (CRUDUser myUser : users) {
             System.out.println(myUser);
         }
 
@@ -62,14 +59,14 @@ public class DynamicQueryTest {
     @Test
     public void whereTest() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserDao mapper = sqlSession.getMapper(UserDao.class);
+        CRUDUserDao mapper = sqlSession.getMapper(CRUDUserDao.class);
 
-        User user = new User();
+        CRUDUser user = new CRUDUser();
         user.setAddress("%浙江%");
 
-        List<User> users = mapper.findByCondition(user);
+        List<CRUDUser> users = mapper.findByCondition(user);
 
-        for (User myUser : users) {
+        for (CRUDUser myUser : users) {
             System.out.println(myUser);
         }
 
@@ -82,19 +79,19 @@ public class DynamicQueryTest {
     @Test
     public void foreachTest(){
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserDao mapper = sqlSession.getMapper(UserDao.class);
+        CRUDUserDao mapper = sqlSession.getMapper(CRUDUserDao.class);
 
         List<Integer> ids = new ArrayList<>();
         ids.add(41);
         ids.add(42);
         ids.add(43);
 
-        UserCondition userCondition = new UserCondition();
+        CRUDUserCondition userCondition = new CRUDUserCondition();
         userCondition.setIds(ids);
 
-        List<User> users = mapper.findByIntegers(userCondition);
+        List<CRUDUser> users = mapper.findByIntegers(userCondition);
 
-        for (User myUser : users) {
+        for (CRUDUser myUser : users) {
             System.out.println(myUser);
         }
 

@@ -68,6 +68,17 @@ public class ParamsController {
     }
 
     /**
+     * 数组数据类型
+     * @param hobbys
+     * @return
+     */
+    @RequestMapping(path = "paramsArray")
+    public String paramsArray(String[] hobbys) {
+        System.out.println(Arrays.toString(hobbys));
+        return SUCCESS;
+    }
+
+    /**
      * 对象数据类型中的对象类型属性
      *
      * @param objectParam

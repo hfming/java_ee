@@ -4,40 +4,62 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!--mybatis 主配置文件-->
 <configuration>
+    <!-- 导入外部 jdbcConfig.properties-->
     <properties resource="jdbcConfig.properties">
 
     </properties>
-    <!-- 开启延迟加载的支持 -->
+
+    <!-- 运行时行为设置-->
     <settings>
+        <!-- 开启延迟加载的支持 -->
         <setting name="lazyLoadingEnabled" value="true"/>
         <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
 
         <!-- 开启二级缓存的支持 -->
         <setting name="cacheEnabled" value="true"/>
     </settings>
 
     <!-- 配置环境 -->
+    <!-- default 指定默认环境-->
     <environments default="mysql">
-<!--        配置 mysql 花环境-->
+        <!-- 可以配置多个 -->
+        <!-- 生产环境 -->
         <environment id="mysql">
-<!--            配置事务类型-->
+            <!-- 配置事务类型-->
             <transactionManager type="JDBC"/>
-<!--            配置数据源（连接池）-->
+            <!-- 配置数据源（连接池）-->
             <dataSource type="POOLED">
-<!--                配置连接数据库的基本信息-->
+                <!-- 配置连接数据库的基本信息-->
                 <property name="driver" value="${jdbc.driver}"/>
                 <property name="url" value="${jdbc.url}"/>
                 <property name="username" value="${jdbc.username}"/>
                 <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
+        <!-- 开发环境-->
+        <environment id="mysqlDevelop">
+            <!-- 配置事务类型-->
+            <transactionManager type="JDBC"/>
+            <!-- 配置数据源（连接池）-->
+            <dataSource type="POOLED">
+                <!-- 配置连接数据库的基本信息-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url"
+                          value="jdbc:mysql://47.99.213.57:3306/jpa?characterEncoding=utf8&amp;useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="tiger2018"/>
+            </dataSource>
+        </environment>
     </environments>
 
-<!--    指定映射配置文件的位置，映射配置文件指每个dao 独立的配置文件-->
-<!--    如果使用注解进行配置，应该使用 class 属性指定被注解的 dao 全类名-->
+    <!--  指定映射配置文件的位置，映射配置文件指每个dao 独立的配置文件-->
+    <!--  如果使用注解进行配置，应该使用 class 属性指定被注解的 dao 全类名-->
     <mappers>
+        <mapper class="com.hfm.dao.UserFirstDao"/>
+        <mapper resource="com/hfm/dao/UserFirstDao.xml"/>
+        <mapper resource="com/hfm/dao/CRUDUserDao.xml"/>
         <mapper resource="com/hfm/dao/UserDao.xml"/>
-        <mapper resource="com/hfm/dao/UserDao3.xml"/>
         <mapper resource="com/hfm/dao/AccountDao3.xml"/>
         <mapper resource="com/hfm/dao/RoleDao.xml"/>
         <mapper resource="com/hfm/dao/RoleUserDao.xml"/>

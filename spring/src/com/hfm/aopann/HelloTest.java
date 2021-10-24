@@ -25,7 +25,7 @@ public class HelloTest {
      */
     @Test
     public void annotationTest(){
-        ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfie.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         Hello helloImpl = context.getBean("helloImpl", Hello.class);
 

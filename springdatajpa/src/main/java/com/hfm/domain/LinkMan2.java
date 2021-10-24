@@ -55,7 +55,7 @@ public class LinkMan2 {
      * @return
      * @ManyToOne 配置多对一的关系
      */
-    @ManyToOne(targetEntity = Customer2.class)
+    @ManyToOne(targetEntity = Customer2.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "lkm_cust_id", referencedColumnName = "cust_id")
     private Customer2 customer2;
 

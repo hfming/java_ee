@@ -20,7 +20,7 @@ public class NewBookDaoImplProxy {
      * 后置通知
      */
     public void afterReturning() {
-        System.out.println("后置通知");
+        System.out.println("afterReturning 后置通知");
     }
 
     /**

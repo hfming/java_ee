@@ -2,8 +2,12 @@ package com.hfm.uncoupled.springioc.ui;
 
 import com.hfm.uncoupled.springioc.dao.IAccountDao;
 import com.hfm.uncoupled.springioc.service.IAccountService;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
  * 模拟一个表现层，用于调用业务层
@@ -28,7 +32,6 @@ public class Client {
         //1.获取核心容器对象
         // 它在构建核心容器时，创建对象采取的策略是采用立即加载的方式。也就是说，只要一读取完配置文件马上就创建配置文件中配置的对象。
         ApplicationContext ac = new ClassPathXmlApplicationContext("uncoupled.xml");
-//        ApplicationContext ac = new FileSystemXmlApplicationContext("C:\\Users\\zhy\\Desktop\\bean.xml");
         //2.根据id获取Bean对象
         IAccountService as  = (IAccountService)ac.getBean("accountService");
         IAccountDao adao = ac.getBean("accountDao", IAccountDao.class);
@@ -39,9 +42,9 @@ public class Client {
 
         // BeanFactory 创建 bean
         // 它在构建核心容器时，创建对象采取的策略是采用延迟加载的方式。也就是说，什么时候根据id获取对象了，什么时候才真正的创建对象。
-//        Resource resource = new ClassPathResource("bean.xml");
-//        BeanFactory factory = new XmlBeanFactory(resource);
-//        IAccountService as  = (IAccountService)factory.getBean("accountService");
-//        System.out.println(as);
+        Resource resource = new ClassPathResource("uncoupled.xml");
+        BeanFactory factory = new XmlBeanFactory(resource);
+        IAccountService as2  = (IAccountService)factory.getBean("accountService");
+        System.out.println(as2);
     }
 }

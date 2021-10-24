@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 名称空间-->
+<mapper namespace="com.hfm.dao.CRUDUserDao">
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="com.hfm.domain.CRUDUser" useCache="true">
+        select * from  mb_user
+    </select>
+
+    <!-- 插入 -->
+    <insert id="save" parameterType="com.hfm.domain.CRUDUser">
+        insert into mb_user(username,address,sex,birthday) values(#{username},#{address},#{sex},#{birthday})
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" parameterType="com.hfm.domain.CRUDUser">
+        update mb_user set username = #{username} ,address = #{address},sex =#{sex} ,birthday = #{birthday} where id = ${id}
+    </update>
+
+    <!-- 通过 Id 查询-->
+    <select id="findById" resultType="com.hfm.domain.CRUDUser" parameterType="Integer">
+        select * from mb_user where id = #{id};
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="findByName" resultType="com.hfm.domain.CRUDUser" parameterType="String">
+        select * from mb_user where username like #{username};
+    </select>
+
+    <!-- 统计查询 -->
+    <select id="count" resultType="Long">
+        select count(1) from mb_user
+    </select>
+
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="integer">
+        DELETE FROM mb_user WHERE id= #{id}
+    </delete>
+    <!--=====================动态查询=============================-->
+    <!-- 动态生成 sql 语句-->
+
+    <!--    动态查询 if 标签-->
+    <select id="findByUser" resultType="com.hfm.domain.CRUDUser" parameterType="com.hfm.domain.CRUDUser">
+        select * from mb_user where 1 = 1
+        <if test="username != null and username != '' ">
+            and username like #{username}
+        </if>
+        <if test="address != null">
+            and address like #{address}
+        </if>
+    </select>
+
+    <!--    动态查询 where 标签-->
+    <select id="findByCondition" resultType="com.hfm.domain.CRUDUser" parameterType="com.hfm.domain.CRUDUser">
+        select * from mb_user
+        <where>
+            <if test="username!=null and username != '' ">
+                and username like #{username}
+            </if>
+            <if test="address != null">
+                and address like #{address}
+            </if>
+        </where>
+    </select>
+
+    <!--    动态查询 foreach 标签 -->
+    <select id="findByIntegers" resultType="com.hfm.domain.CRUDUser" parameterType="com.hfm.domain.condition.CRUDUserCondition">
+        select * from mb_user
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                <!--  foreach 标签用于遍历集合-->
+                <!--  collection:代表要遍历的集合元素，注意编写时不要写#{}-->
+                <!--  open:代表语句的开始部分-->
+                <!--  close:代表结束部分-->
+                <!--  item:代表遍历集合的每个元素，生成的变量名-->
+                <!--  sperator:代表分隔符-->
+                <foreach collection="ids" open="id in ( " close=")" item="uid" separator=",">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <sql id="getAll">
+        select * from mb_user where 1 = 1
+    </sql>
+</mapper>

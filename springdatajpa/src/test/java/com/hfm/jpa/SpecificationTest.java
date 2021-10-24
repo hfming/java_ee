@@ -62,7 +62,6 @@ public class SpecificationTest {
     public void matchWhereTest() {
         List<Customer> customers = customerDao.findAll((root, criteriaQuery, criteriaBuilder) -> {
             Path<Object> custName = root.get("custName");
-
             Path<Object> custIndustry = root.get("custIndustry");
 
             Predicate predicate1 = criteriaBuilder.equal(custName, "传智学院");

@@ -40,8 +40,10 @@ public class OneToManyTest {
 
         LinkMan2 linkMan2 = new LinkMan2();
         linkMan2.setLkmName("小明");
+
         // 将联系人添加到客户中才能建立关系
         customer2.getLinkMan2().add(linkMan2);
+        linkMan2.setCustomer2(customer2);
 
         // 没有将联系人添加到客户中时客户与联系人独立添加到数据库中没有建立关系
         customer2Dao.save(customer2);

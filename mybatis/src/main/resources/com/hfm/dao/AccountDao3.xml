@@ -22,7 +22,7 @@
             <result column="address" property="address"/>
         </association>
     </resultMap>
-<!--    第二种方式实现一对多-->
+    <!--    第二种方式实现一对多-->
     <select id="findAll2" resultMap="accountMap">
         select u.*,a.id as aid,a.uid,a.money from mb_account a,mb_user u where a.uid =u.id;
     </select>
@@ -32,12 +32,12 @@
         <result column="uid" property="uid"/>
         <result column="money" property="money"/>
         <!-- 它是用于指定从表方的引用实体属性的 -->
-<!--        select 属性指定查询用户的唯一标识 填写我们要调用的 select 映射的 id -->
-<!--        column 属性指定根据id 查询时所需要是值 填写我们要传递给 select 映射的参数-->
+        <!--  select 属性指定查询用户的唯一标识 填写我们要调用的 select 映射的 id -->
+        <!--  column 属性指定根据id 查询时所需要是值 填写我们要传递给 select 映射的参数-->
         <association property="user" javaType="com.hfm.domain.User" select="com.hfm.dao.UserDao3.findById" column="uid" />
     </resultMap>
 
-<!--    一对多延迟加载-->
+    <!--    一对多延迟加载-->
     <select id="lazyFind" resultMap="lazyMap">
         select * from mb_account
     </select>

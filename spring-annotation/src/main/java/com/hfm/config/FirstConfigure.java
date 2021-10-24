@@ -10,6 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2020/10/14
  */
 @Configurable
-@ComponentScan(value = {"com.hfm.domain"})
+@ComponentScan(value = {"com.hfm.aware"})
 public class FirstConfigure {
 }

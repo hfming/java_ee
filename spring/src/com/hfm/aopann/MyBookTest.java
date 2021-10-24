@@ -32,7 +32,7 @@ public class MyBookTest {
      */
     @Test
     public void annoTest(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfie.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         MyBookDao myBookDao = context.getBean("myBookDaoImpl", MyBookDao.class);
 

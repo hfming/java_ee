@@ -5,10 +5,6 @@ import com.hfm.server.CustomerServer;
 import com.hfm.server.impl.CustomerServerImpl;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import org.apache.struts2.ServletActionContext;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

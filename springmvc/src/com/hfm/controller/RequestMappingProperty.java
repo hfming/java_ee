@@ -1,6 +1,7 @@
 package com.hfm.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -39,8 +40,10 @@ public class RequestMappingProperty {
      * @return
      */
     @RequestMapping(path = "params", method = {RequestMethod.POST, RequestMethod.GET}, params = {"name", "money=100"})
-    public String params() {
+    public String params(String name,String money) {
         System.out.println("params 属性");
+        System.out.println(name);
+        System.out.println(money);
         return SUCCESS;
     }
 
@@ -53,5 +56,17 @@ public class RequestMappingProperty {
     public String headers() {
         System.out.println("headers 属性");
         return SUCCESS;
+    }
+
+    /**
+     * 路径中占位符 {} 的使用
+     * @param id
+     * @param username
+     * @return
+     */
+    @RequestMapping("/testRest/{id}/{username}")
+    public String testRest(@PathVariable("id") String id, @PathVariable("username") String username){
+        System.out.println("id:"+id+",username:"+username);
+        return "success";
     }
 }

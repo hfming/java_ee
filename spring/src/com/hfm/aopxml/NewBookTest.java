@@ -14,10 +14,9 @@ public class NewBookTest {
     public  void aopXmlTest() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("aopXml.xml");
 
-        NewBookDao newBookDao = context.getBean("newBookDao", NewBookDao.class);
-
         NewBook newBook = context.getBean("newBook", NewBook.class);
 
+        NewBookDao newBookDao = context.getBean("newBookDao", NewBookDao.class);
         newBookDao.add(newBook);
     }
 }

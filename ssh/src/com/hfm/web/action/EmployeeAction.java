@@ -1,7 +1,5 @@
 package com.hfm.web.action;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hfm.entity.Department;
 import com.hfm.entity.Employee;
 import com.hfm.server.DepartmentServer;
@@ -13,8 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,18 +30,6 @@ import java.util.List;
 @Controller(value = "employeeAction")
 @Scope(value = "prototype")
 public class EmployeeAction extends ActionSupport implements ModelDriven<Employee> {
-    /**
-     * 模型驱动自动注入前端参数
-     */
-    private Employee employee;
-
-    @Override
-    public Employee getModel() {
-        return employee;
-    }
-
-    private String departmentName;
-
     @Autowired
     private EmployeeServer employeeServer;
 
@@ -45,13 +37,44 @@ public class EmployeeAction extends ActionSupport implements ModelDriven<Employe
     private DepartmentServer departmentServer;
 
     /**
+     * 模型驱动自动注入前端参数
+     */
+    @Autowired
+    private Employee employee;
+
+    @Override
+    public Employee getModel() {
+        return employee;
+    }
+
+    /**
      * 添加员工
      *
      * @return
      */
     public String add() {
+        if (employee.getId() != null) {
+            return update();
+        }
+
+        // 获取部门 id
+        String id = ServletActionContext.getRequest().getParameter("department.id");
         // 先查找部门
-        Department department = departmentServer.findByName(departmentName);
+        Department department = departmentServer.findById(Integer.parseInt(id));
+
+        String birth = ServletActionContext.getRequest().getParameter("birth");
+
+        Date parse = null;
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            parse = simpleDateFormat.parse(birth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        employee.setBirth(parse);
+
+        employee.setCreateTime(new Date());
         // 设置员工所在部门
         employee.setDepartment(department);
         // 添加员工
@@ -70,12 +93,25 @@ public class EmployeeAction extends ActionSupport implements ModelDriven<Employe
     }
 
     /**
+     * 属性驱动获取前端参数
+     */
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
      * 删除员工
      *
      * @return
      */
     public String delete() {
-        employeeServer.delete(employee.getId());
+        employeeServer.delete(Integer.parseInt(id));
         return "delete";
     }
 
@@ -86,9 +122,18 @@ public class EmployeeAction extends ActionSupport implements ModelDriven<Employe
      */
     public String findAll() {
         List<Employee> employees = employeeServer.findAll();
-
         ServletActionContext.getRequest().setAttribute("employees", employees);
         return "findAll";
+    }
+
+    private InputStream inputStream;
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     /**
@@ -98,15 +143,25 @@ public class EmployeeAction extends ActionSupport implements ModelDriven<Employe
      */
     public String nameExited() throws IOException {
         boolean b = employeeServer.nameExited(employee.getLastName());
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = "";
-        if (b == true) {
-            json = objectMapper.writeValueAsString(true);
+        if (b) {
+            inputStream = new ByteArrayInputStream("0".getBytes(StandardCharsets.UTF_8));
         } else {
-            json = objectMapper.writeValueAsString(false);
+            inputStream = new ByteArrayInputStream("1".getBytes(StandardCharsets.UTF_8));
         }
-        ServletOutputStream outputStream = ServletActionContext.getResponse().getOutputStream();
-        objectMapper.writeValue(outputStream, json);
         return "nameExited";
+    }
+
+    /**
+     * 通过 id查询用户
+     * @return
+     */
+    public String findById() {
+        this.employee = employeeServer.findEmployeeById(Integer.parseInt(id));
+        HttpServletRequest request = ServletActionContext.getRequest();
+        request.setAttribute("employee", this.employee);
+        List<Department> all = departmentServer.findAll();
+        request.setAttribute("departments", all);
+        request.setAttribute("departmentsSize", all.size());
+        return "findById";
     }
 }

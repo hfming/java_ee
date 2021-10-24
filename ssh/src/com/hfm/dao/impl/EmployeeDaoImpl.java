@@ -17,13 +17,13 @@ import java.util.List;
 public class EmployeeDaoImpl extends BaseDao<Employee> implements EmployeeDao {
     @Override
     public Employee findEmployeeById(Integer id) {
-        String hql = "from Employee where id = ?";
+        String hql = "from Employee where id = ?1";
         return querySingle(getCurrentSession(), hql, id);
     }
 
     @Override
     public Employee findEmployeeByName(String name) {
-        String hql = "from Employee where employeeName = ?";
+        String hql = "from Employee where employeeName = ?1";
         return querySingle(getCurrentSession(), hql, name);
     }
 
@@ -53,7 +53,7 @@ public class EmployeeDaoImpl extends BaseDao<Employee> implements EmployeeDao {
 
     @Override
     public boolean nameExisted(String name) {
-        String hql = "from Employee where employeeName =?";
+        String hql = "from Employee where lastName =?1";
         Employee employee = querySingle(getCurrentSession(), hql, name);
 
         if (employee == null) {

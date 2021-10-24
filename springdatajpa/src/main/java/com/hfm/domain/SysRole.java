@@ -33,7 +33,7 @@ public class SysRole {
     /**
      * 多对多关系
      */
-    @ManyToMany(mappedBy = "sysRoles") // 设置关联的实体 // 被动的一方放弃外键的维护 mappedBy 设置维护外键的对象
+    @ManyToMany(mappedBy = "sysRoles",fetch = FetchType.LAZY) // 设置关联的实体 // 被动的一方放弃外键的维护 mappedBy 设置维护外键的对象
     private Set<SysUser> sysUsers = new HashSet<>();
 
     public Set<SysUser> getSysUsers() {

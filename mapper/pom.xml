@@ -6,16 +6,35 @@
     <groupId>com.hfming</groupId>
     <artifactId>mapper</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>mapper Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- ${basedir}引用工程根目录 -->
+        <!-- targetJavaProject：声明存放源码的目录位置 -->
+<!--        <targetJavaProject>${basedir}/src/main/java</targetJavaProject>-->
+
+        <!-- targetMapperPackage：声明MBG生成XxxMapper接口后存放的package位置 -->
+<!--        <targetMapperPackage>com.atguigu.shop.mappers</targetMapperPackage>-->
+
+        <!-- targetModelPackage：声明MBG生成实体类后存放的package位置 -->
+<!--        <targetModelPackage>com.atguigu.shop.entities</targetModelPackage>-->
+
+        <!-- targetResourcesProject：声明存放资源文件和XML配置文件的目录位置 -->
+<!--        <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>-->
+
+        <!-- targetXMLPackage：声明存放具体XxxMapper.xml文件的目录位置 -->
+<!--        <targetXMLPackage>mappers</targetXMLPackage>-->
+
+        <!-- 通用Mapper的版本号 -->
+<!--        <mapper.version>4.0.0-beta3</mapper.version>-->
+
+        <!-- MySQL驱动版本号 -->
+<!--        <mysql.version>5.1.37</mysql.version>-->
     </properties>
 
     <dependencies>
@@ -159,18 +178,18 @@
         </pluginManagement>
 
         <plugins>
-            <!--        通用 mapper mgb 插件-->
+            <!-- 通用 mapper mgb 插件-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.6</version>
+                <!-- 配置generatorConfig.xml配置文件的路径 -->
                 <configuration>
-                    <configurationFile>
-                        ${basedir}/src/main/resources/mbg.xml
-                    </configurationFile>
+                    <configurationFile>${basedir}/src/main/resources/mbg.xml</configurationFile>
                     <overwrite>true</overwrite>
                     <verbose>true</verbose>
                 </configuration>
+                <!-- MBG插件的依赖信息 -->
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>

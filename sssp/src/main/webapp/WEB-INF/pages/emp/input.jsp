@@ -36,7 +36,7 @@
 </form>
 </body>
 <script type="text/javascript">
-    $("#lastName").blur(function () {
+    $("#lastName").change(function () {
         // 获取用户名
         var val = $(this).val();
         val = $.trim(val);

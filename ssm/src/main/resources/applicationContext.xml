@@ -47,13 +47,13 @@
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
 
         <!--注册插件-->
-<!--        <property name="plugins">-->
-<!--            <array>-->
-<!--                &lt;!&ndash;注册分页插件&ndash;&gt;-->
+        <property name="plugins">
+            <array>
+                <!--注册分页插件-->
 <!--                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>-->
-<!--                <bean class="com.github.pagehelper.PageInterceptor"/>-->
-<!--            </array>-->
-<!--        </property>-->
+                <bean class="com.github.pagehelper.PageInterceptor"/>
+            </array>
+        </property>
         <!--        配置全局策略-->
         <property name="globalConfig" ref="globalConfig"/>
     </bean>

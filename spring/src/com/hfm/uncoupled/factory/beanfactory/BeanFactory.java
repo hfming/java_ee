@@ -1,5 +1,6 @@
 package com.hfm.uncoupled.factory.beanfactory;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -21,24 +22,25 @@ public class BeanFactory {
     /**
      * 定义一个Properties对象
      */
-    private static Properties props;
+    private static  Properties props;
     /**
      * 定义一个Map,用于存放我们要创建的对象。我们把它称之为容器
      */
-    private static Map<String, Object> beans;
+    private static  Map<String, Object> beans;
 
     /**
      * 使用静态代码块为Properties对象赋值
      */
     static {
-        try {
-            //实例化对象
-            props = new Properties();
-            //获取properties文件的流对象
-            InputStream in = BeanFactory.class.getClassLoader().getResourceAsStream("uncoupled.properties");
-            props.load(in);
+        //实例化对象
+        props = new Properties();
+        try(//获取properties文件的流对象
+            InputStream resourceAsStream = BeanFactory.class.getClassLoader().getResourceAsStream("uncoupled.properties")
+        ) {
+            props.load(resourceAsStream);
             //实例化容器
-            beans = new HashMap<String, Object>();
+            beans = new HashMap();
+
             //取出配置文件中所有的Key
             Enumeration keys = props.keys();
             //遍历枚举

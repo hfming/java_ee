@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * @author hfming2016@163.com
  * @version 1.01 2020-10-21 20:42
- * @Description
+ * @Description 读取配置文件，将配置文件转发为流
  * @date 2020/10/21
  */
 public class MyResources {

@@ -21,9 +21,9 @@
     <!--    先把工厂的创建交给spring来管理。 然后在使用工厂的bean来调用里面的方法 -->
     <!--    id属性：指定bean的id，用于从容器中获取-->
     <!--    class属性：指定静态工厂的全限定类名-->
-<!--    <bean id="myBeanFactory" class="com.hfm.bean.MyBeanFactory"></bean>-->
-    <!--    factory-bean 指定工厂 bean -->
-    <!--    factory-method 指定生产 bean 对象的静态方法 -->
+    <bean id="myBeanFactory" class="com.hfm.bean.MyBeanFactory"></bean>
+    <!--    factory-bean 指定工厂 bean-->
+    <!--    factory-method 指定生产 bean 对象的静态方法-->
 <!--    <bean id="myBean" factory-bean="myBeanFactory" factory-method="getMyBean"></bean>-->
 
     <!--    创建 bean 对象的方式三: 使用静态工厂创建 bean 对象-->
@@ -52,6 +52,8 @@
         <property name="name" value="myName"></property>
     </bean>
 
+    <!--   添加后置处理器后的生命周期 -->
+    <!--  所有对象创建前与创建后都会调用后置处理器 对应的两个方法，注意 Spring 默认为 Singleton 即配置文件加载就创建-->
     <bean id="myBeanPostProcessor" class="com.hfm.bean.MyBeanPostProcessor">
     </bean>
 </beans>
